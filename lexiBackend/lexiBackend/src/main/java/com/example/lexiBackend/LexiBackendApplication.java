@@ -1,4 +1,4 @@
-package com.lexi.lexi;
+package com.example.lexiBackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
