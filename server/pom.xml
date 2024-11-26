@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-ai.version>1.0.0-M4</spring-ai.version>
+		<moduleName>test</moduleName>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -38,6 +39,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,17 +63,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-azure-openai-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-openai-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-pdf-document-reader</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -97,6 +90,10 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -125,8 +122,34 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<!--FOLDER STRUCTURE SCRIPT-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<configuration>
+							<target>
+								<mkdir dir="src/main/java/com/lexi/${moduleName}/controller"/>
+								<mkdir dir="src/main/java/com/lexi/${moduleName}/service"/>
+								<mkdir dir="src/main/java/com/lexi/${moduleName}/repository"/>
+								<mkdir dir="src/main/java/com/lexi/${moduleName}/model"/>
+								<mkdir dir="src/main/java/com/lexi/${moduleName}/dto"/>
+								<mkdir dir="src/main/java/com/lexi/${moduleName}/exception"/>
+								<mkdir dir="src/main/java/com/lexi/${moduleName}/util"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
