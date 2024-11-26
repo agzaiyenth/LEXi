@@ -1,0 +1,87 @@
+# General OS and IDE files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.ini
+*.env
+*.swp
+
+# Desktop initialization files
+*.init
+
+# Node.js / React Native (Frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+expo/
+web-build/
+dist/
+.env
+*.env.local
+*.env.development
+*.env.production
+
+# React Native Specific
+.expo/
+ios/build/
+ios/Pods/
+android/.gradle/
+android/app/build/
+android/.idea/
+android/local.properties
+android/app/src/main/assets/index.android.bundle
+android/app/src/main/assets/index.ios.bundle
+android/app/src/main/assets/sourcemap*
+
+# IntelliJ IDEA / WebStorm / VSCode files
+.idea/
+.vscode/
+*.iml
+
+# Java / Spring Boot (Backend)
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.out
+*.bak
+*.pid
+hs_err_pid*
+replay_pid*
+*.swp
+
+# Maven / Gradle specific
+.mvn/
+.gradle/
+build/
+
+# Database and configuration
+*.db
+*.h2.db
+*.sqlite
+*.sql
+*.db-shm
+*.db-wal
+
+# Logs
+logs/
+*.log
+*.gz
+
+# Security sensitive files
+.keystore
+*.jks
+
+# Test results
+test-output/
+surefire-reports/
+coverage/
+jacoco.exec
+
+# OS generated files
+Thumbs.db
+*.DS_Store
