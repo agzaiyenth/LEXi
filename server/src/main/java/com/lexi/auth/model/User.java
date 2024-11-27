@@ -19,13 +19,13 @@ public class User {
     private String username;
 
     @Getter @Setter
-    private String email; // Add email field to match Flyway
+    private String email;
 
     @Getter @Setter
     private String password;
 
     @Getter @Setter
-    @Enumerated(EnumType.STRING) // Map ENUM to Java Enum
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Getter @Setter

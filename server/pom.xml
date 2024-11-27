@@ -117,22 +117,22 @@
 			<scope>runtime</scope>
 		</dependency>
 
-<!--		Logs-->
+<!--Logs-->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
+		<!-- TinyLog dependency -->
 		<dependency>
-			<groupId>com.github.oshi</groupId>
-			<artifactId>oshi-core</artifactId>
-			<version>6.5.0</version>
+			<groupId>org.tinylog</groupId>
+			<artifactId>tinylog-api</artifactId>
+			<version>2.4.1</version> <!-- use the latest version available -->
 		</dependency>
 		<dependency>
-			<groupId>net.logstash.logback</groupId>
-			<artifactId>logstash-logback-encoder</artifactId>
-			<version>7.4</version>
+			<groupId>org.tinylog</groupId>
+			<artifactId>tinylog-impl</artifactId>
+			<version>2.4.1</version> <!-- use the latest version available -->
 		</dependency>
-
 
 
 		<!-- Lombok -->
