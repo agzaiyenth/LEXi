@@ -1,4 +1,4 @@
-package com.lexi.auth.config;
+package com.lexi.common.config;
 
 import com.lexi.auth.service.CustomUserDetailsService;
 import com.lexi.auth.util.JwtUtil;
