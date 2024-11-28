@@ -6,6 +6,7 @@ import com.lexi.auth.dto.SignupRequest;
 import com.lexi.auth.model.User;
 import com.lexi.auth.repository.UserRepository;
 import com.lexi.auth.util.JwtUtil;
+import com.lexi.common.dto.ApiResponse;
 import com.lexi.common.exception.GlobalExceptionHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -14,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.lexi.auth.service.UserService;
@@ -39,38 +42,40 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/login")
-    public JwtResponse login(@RequestBody LoginRequest loginRequest) {
-        log.info("Logging in user: {}", loginRequest.getUsername());
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        String token = jwtUtil.generateToken(loginRequest.getUsername());
-        log.info("User logged in successfully: {}", loginRequest.getUsername());
-        log.info("Generated token: {}", token);
-        return new JwtResponse(token);
-    }
-
 
     @PostMapping("/signup")
-    public String signup(@Valid @RequestBody SignupRequest signupRequest) {
-        // Check if username already exists
-        if (userRepository.findByUsername(signupRequest.getUsername()).isPresent()) {
-            log.error("Username already exists: {}", signupRequest.getUsername());
-            throw new RuntimeException("Username already exists!");
-        }
-
-        // Map SignupRequest to User entity
-        User user = new User();
-        user.setUsername(signupRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
-        user.setEmail(signupRequest.getEmail());
-        user.setRole(User.Role.ROLE_USER); // Default role for new users
-
-        // Save user in the database
-        userRepository.save(user);
+    public ResponseEntity<ApiResponse<String>> signup(@Valid @RequestBody SignupRequest signupRequest) {
+        userService.registerUser(signupRequest.getUsername(), signupRequest.getEmail(), signupRequest.getPassword());
         log.info("User registered successfully: {}", signupRequest.getUsername());
-
-        return "User registered successfully!";
+        return ResponseEntity.ok(ApiResponse.success("User registered successfully!", "Signup successful"));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<JwtResponse>> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            // Authenticate user
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
+
+            // If authentication is successful, generate JWT
+            String token = jwtUtil.generateToken(loginRequest.getUsername());
+            return ResponseEntity.ok(ApiResponse.success(new JwtResponse(token), "Login successful"));
+
+        } catch (BadCredentialsException ex) {
+            // Handle invalid credentials
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponse.error("Invalid username or password"));
+        } catch (Exception ex) {
+            // Handle other errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error("An error occurred during login"));
+        }
+    }
+
 
 
     /**
@@ -97,7 +102,7 @@ public class AuthController {
         String token = authorizationHeader.substring(7);
         try {
             jwtUtil.validateToken(token); // Validate if the token is well-formed
-            userService.invalidateToken(token); // Invalidate the token (implementation in the service)
+            // Invalidate the token (implementation in the service)
             log.info("Logged out successfully.");
             return ResponseEntity.ok("Logged out successfully.");
         } catch (Exception e) {
