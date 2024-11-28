@@ -2,13 +2,14 @@ package com.lexi.auth.controller;
 
 import com.lexi.auth.dto.JwtResponse;
 import com.lexi.auth.dto.LoginRequest;
+import com.lexi.auth.dto.SignupRequest;
 import com.lexi.auth.model.User;
 import com.lexi.auth.repository.UserRepository;
 import com.lexi.auth.util.JwtUtil;
 import com.lexi.common.exception.GlobalExceptionHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import com.lexi.auth.service.UserService;
 
 @RestController
+@Slf4j
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -37,29 +39,39 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     @PostMapping("/login")
     public JwtResponse login(@RequestBody LoginRequest loginRequest) {
-        logger.info("Logging in user: {}", loginRequest.getUsername());
+        log.info("Logging in user: {}", loginRequest.getUsername());
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         String token = jwtUtil.generateToken(loginRequest.getUsername());
-        logger.info("User logged in successfully: {}", loginRequest.getUsername());
-        logger.info("Generated token: {}", token);
+        log.info("User logged in successfully: {}", loginRequest.getUsername());
+        log.info("Generated token: {}", token);
         return new JwtResponse(token);
     }
 
+
     @PostMapping("/signup")
-    public String signup(@RequestBody User user) {
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            logger.error("Username already exists: {}", user.getUsername());
-            return "Username already exists!";
+    public String signup(@Valid @RequestBody SignupRequest signupRequest) {
+        // Check if username already exists
+        if (userRepository.findByUsername(signupRequest.getUsername()).isPresent()) {
+            log.error("Username already exists: {}", signupRequest.getUsername());
+            throw new RuntimeException("Username already exists!");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Map SignupRequest to User entity
+        User user = new User();
+        user.setUsername(signupRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        user.setEmail(signupRequest.getEmail());
+        user.setRole(User.Role.ROLE_USER); // Default role for new users
+
+        // Save user in the database
         userRepository.save(user);
-        logger.info("User registered successfully: {}", user.getUsername());
+        log.info("User registered successfully: {}", signupRequest.getUsername());
+
         return "User registered successfully!";
     }
+
 
     /**
      * Logs out the user by invalidating the refresh token or recording the JWT token as invalid.
@@ -78,7 +90,7 @@ public class AuthController {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            logger.error("Invalid token format.");
+            log.error("Invalid token format.");
             return ResponseEntity.badRequest().body("Invalid token format.");
         }
 
@@ -86,10 +98,10 @@ public class AuthController {
         try {
             jwtUtil.validateToken(token); // Validate if the token is well-formed
             userService.invalidateToken(token); // Invalidate the token (implementation in the service)
-            logger.info("Logged out successfully.");
+            log.info("Logged out successfully.");
             return ResponseEntity.ok("Logged out successfully.");
         } catch (Exception e) {
-            logger.error("Invalid or expired token.");
+            log.error("Invalid or expired token.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token.");
         }
     }
