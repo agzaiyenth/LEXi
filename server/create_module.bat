@@ -8,7 +8,7 @@ if "%MODULE_NAME%"=="" (
 )
 
 REM Define the base directory
-set BASE_DIR=src\main\java\com\lexi\%MODULE_NAME%
+set BASE_DIR=src\main\java\com\lexi\springapp\%MODULE_NAME%
 
 REM Create folders
 mkdir %BASE_DIR%\controller

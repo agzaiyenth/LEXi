@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.lexi</groupId>
 	<artifactId>springapp </artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -26,11 +29,13 @@
 		<tag/>
 		<url/>
 	</scm>
+
 	<properties>
 		<java.version>17</java.version>
 		<spring-ai.version>1.0.0-M4</spring-ai.version>
 		<moduleName>test</moduleName>
 	</properties>
+
 	<dependencies>
 		<!-- Spring Boot Starters -->
 		<dependency>
@@ -112,11 +117,39 @@
 			<scope>runtime</scope>
 		</dependency>
 
+<!--Logs-->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<!-- TinyLog dependency -->
+		<dependency>
+			<groupId>org.tinylog</groupId>
+			<artifactId>tinylog-api</artifactId>
+			<version>2.4.1</version> <!-- use the latest version available -->
+		</dependency>
+		<dependency>
+			<groupId>org.tinylog</groupId>
+			<artifactId>tinylog-impl</artifactId>
+			<version>2.4.1</version> <!-- use the latest version available -->
+		</dependency>
+
+
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>6.4.1</version>
 		</dependency>
 	</dependencies>
 
@@ -185,5 +218,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
 
 </project>
