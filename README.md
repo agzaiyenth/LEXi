@@ -69,8 +69,10 @@ Repositories are like filing clerks. They:
 - Handle all database operations
 - Keep data organized and accessible
 
-### Model Layer
+### Model Layer 
 Models are like blueprints for your data. They define what information you store and how it's structured. Here's how we set them up:
+
+> Make sure you extends the model from `BaseEntity` if you need create and update time stamp to the data
 
 ```java
 @Entity                     // Tells Spring this is a database table
@@ -81,6 +83,13 @@ public class User {
     private Long id;
 }
 ```
+
+The database is connected in this layer , make sure you mention the table name reference `@Table(name = "users")` 
+mark nullable or uniqe constrains using `@Column(nullable = false, unique = true)`
+mark ID field using `@Id`
+
+
+
 ---
 # Coding Standards
 
@@ -126,6 +135,12 @@ We use Lombok to reduce boilerplate code. Add these annotations to your classes:
 ```
 @Slf4j                  // Creates logger instance named 'log'
 ```
+```
+@Transactional
+```
+```
+@Cacheable
+```
 
 ## Logging Practice
 We use TinyLog for keeping track of what's happening in our application.
@@ -142,18 +157,6 @@ log.error("Database connection failed");      // Serious problems
 log.debug("Processing payment data");         // Development details
 ```
 
-## Database Management
-We use Flyway to manage database changes, like keeping a detailed changelog for your database. 
-All changes go in the `src/main/resources/db/migration` folder with files named like `V1__create_users_table.sql`.
-
-```
--- V1__create_users_table.sql
-CREATE TABLE users (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL
-);
-
-```
 
 ## API Documentation
 Document all APIs in Postman:
@@ -179,23 +182,37 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-#FlyAway Config - DB Version Manager
-spring.flyway.enabled=true
-spring.flyway.locations=classpath:db/migration
-spring.flyway.baseline-on-migrate=true
 
 # JWT Config
-jwt.secret_key=
-jwt.expiration_time=3600000
+jwt.secret=
+jwt.expirationMs=3600000
+jwt.refreshExpirationMs=86400000    
+
+# Google OAuth2 Config
+google.oauth.clientId=YOUR_GOOGLE_CLIENT_ID
+google.oauth.clientSecret=YOUR_GOOGLE_CLIENT_SECRET
+google.oauth.redirectUri=http://localhost:8080/api/oauth/google/callback
+google.oauth.tokenUri=https://oauth2.googleapis.com/token
+google.oauth.userInfoUri=https://openidconnect.googleapis.com/v1/userinfo
 
 # Log Tomcat logs with TinyLog
 logging.level.org.apache.catalina.core=debug
 logging.level.org.apache.catalina.connector=debug
+logging.level.org.springframework.cache=DEBUG
+
 
 # Enable Tomcat access logs
 server.tomcat.accesslog.enabled=true
 server.tomcat.accesslog.pattern=%h %l %u %t "%r" %s %b
 server.tomcat.accesslog.directory=logs
+
+# Cache settings
+spring.cache.type=redis
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+spring.cache.redis.time-to-live=3600000
+
+
 
 ```
 
