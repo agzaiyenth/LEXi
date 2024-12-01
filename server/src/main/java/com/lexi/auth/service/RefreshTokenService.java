@@ -35,41 +35,42 @@ public class RefreshTokenService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public RefreshToken createRefreshToken(Long userId) {
         log.info("Creating refresh token for user {}", userId);
-        RefreshToken refreshToken = new RefreshToken();
 
+        RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(userRepository.findById(userId).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
+        refreshToken.setRevoked(false);
 
         return refreshTokenRepository.save(refreshToken);
     }
 
     public Optional<RefreshToken> findByToken(String token) {
         log.info("Finding refresh token by token: {}", token);
-
         return refreshTokenRepository.findByToken(token);
     }
 
-    public RefreshToken verifyExpiration(RefreshToken token) {
+    public void verifyExpiration(RefreshToken token) {
         if (token.isRevoked()) {
-            log.info("Refresh token has been revoked");
+            log.warn("Refresh token has been revoked: {}", token.getToken());
             throw new TokenRefreshException("Refresh token has been revoked.");
         }
         if (token.getExpiryDate().isBefore(Instant.now())) {
+            log.warn("Refresh token has expired: {}", token.getToken());
             refreshTokenRepository.delete(token);
-            log.info("Refresh token has expired");
-            throw new TokenRefreshException("Refresh token has expired. Please sign in again.");
+            throw new TokenRefreshException("Refresh token has expired. Please log in again.");
         }
-        return token;
     }
+
 
 
     @Transactional
     public void deleteByUserId(Long userId) {
-        log.info("Deleting refresh token by user id: {}", userId);
-        refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+        log.info("Deleting all refresh tokens for user ID {}", userId);
+        refreshTokenRepository.deleteByUser_Id(userId);
     }
 
     @Transactional
@@ -83,7 +84,7 @@ public class RefreshTokenService {
     @Transactional
     public void revokeAllTokensForUser(Long userId) {
         List<RefreshToken> tokens = refreshTokenRepository.findAllByUser_Id(userId);
-        log.info("Revoking all refresh tokens for user");
+        log.info("Revoking refresh token for user ID {}", userId);
         tokens.forEach(token -> {
             token.setRevoked(true);
         });

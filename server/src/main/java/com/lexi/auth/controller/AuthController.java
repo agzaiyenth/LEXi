@@ -62,9 +62,9 @@ public class AuthController {
 
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logoutUser(@RequestParam String username) {
+    public ResponseEntity<ApiResponse<Void>> logoutUser(@RequestParam String username,@RequestParam String refreshToken) {
         try {
-            authService.logout(username);
+            authService.logout(username, refreshToken);
             return ResponseEntity.ok(ApiResponse.success(null, "Logout successful!"));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(e.getMessage()));

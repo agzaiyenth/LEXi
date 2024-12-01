@@ -53,6 +53,7 @@ public class AuthService {
         );
 
         log.info("Generating JWT token for user {}", username);
+
         String accessToken = jwtTokenProvider.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -87,13 +88,15 @@ public class AuthService {
         return userService.saveUser(user);
     }
 
-    public void logout(String username) {
-        log.info("Deleting refresh token for user {}", username);
+    public void logout(String username, String token) {
+        log.info("Revoking refresh token for user {}", username);
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-        log.info("User Logged out: {}", username);
-        refreshTokenService.revokeAllTokensForUser(user.getId());
+
+        refreshTokenService.revokeToken(token);
+        log.info("User logged out: {}", username);
     }
+
 
     public void validateSignupRequest(SignupRequest signupRequest) {
         if (userService.existsByUsername(signupRequest.getUsername())) {
