@@ -1,12 +1,17 @@
 package com.lexi.auth.repository;
 
-import com.lexi.auth.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import com.lexi.auth.model.User;
 
 import java.util.Optional;
-
+/**
+ * Handles database operations for the User entity
+ */
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
-    Optional<User> findByRefreshToken(String refreshToken);
     Optional<User> findByEmail(String email);
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
 }
