@@ -1,57 +1,40 @@
 package com.lexi.auth.model;
 
+import com.lexi.common.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
+/**
+ * Represents the user entity.
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "users")
-public class User {
-
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+}, indexes = {
+        @Index(columnList = "username"),
+        @Index(columnList = "email")
+})
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter
     private Long id;
 
-    @Getter @Setter
+    @Column(nullable = false)
+    private String fullName;
+
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Getter @Setter
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Getter @Setter
+    @Column(nullable = false)
     private String password;
 
-    @Getter @Setter
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @Getter @Setter
-    private String refreshToken;
-
-    @Column(name = "created_at", updatable = false)
-    @Getter @Setter
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @Getter @Setter
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public enum Role {
-        ROLE_USER,
-        ROLE_ADMIN
-    }
+    @Column(nullable = false)
+    private String role;
 }
