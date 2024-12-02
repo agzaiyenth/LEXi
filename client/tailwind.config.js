@@ -10,13 +10,7 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      colors: {
-        darkGreen: '#264653',
-        teal: '#2A9D8F',
-        lightTeal: '#A8DADC',
-        peach: '#F4A261',
-        offWhite: '#FDF5E6',
-      },
+
     },
   },
   plugins: [],
