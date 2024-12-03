@@ -7,22 +7,39 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import theme from '../theme';
+import { useLogin } from '@/hooks/auth/useLogin';
+import { useRouter } from 'expo-router';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
+  const { login, loading, error } = useLogin();
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      const user = await login(username, password);
+      // Alert.alert('Login Successful', `Welcome, ${user.fullName}!`);
+      console.log(user, 'user loged in');
+      router.push('/');
+      
+    } catch (error) {
+      console.log(error, 'error loging in');
+      // Alert.alert('Login Failed', error.message);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Avatar Circle */}
       <View style={styles.avatarContainer}>
-      <Image 
-          source={require('../images/auth/icon.png')} 
-          style={styles.logo} 
+        <Image
+          source={require('../images/auth/icon.png')}
+          style={styles.logo}
           resizeMode="contain"
         />
       </View>
@@ -37,13 +54,12 @@ const LoginScreen = () => {
           <Text style={styles.label}>Email</Text>
         </View>
         <View style={styles.inputForm}>
-          <Feather name="mail" size={20} color="#666" />
+        <Feather name="user" size={20} color="#666" />
           <TextInput
             style={styles.input}
-            placeholder="Enter your Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
+            placeholder="Enter your Username"
+            value={username}
+            onChangeText={setUsername}
             autoCapitalize="none"
           />
         </View>
@@ -53,7 +69,7 @@ const LoginScreen = () => {
           <Text style={styles.label}>Password</Text>
         </View>
         <View style={styles.inputForm}>
-          <Feather name="lock" size={20} color="#666" />
+        <Feather name="lock" size={20} color="#666" />
           <TextInput
             style={styles.input}
             placeholder="Enter your Password"
@@ -78,10 +94,18 @@ const LoginScreen = () => {
         </View>
 
         {/* Submit Button */}
-        <TouchableOpacity style={styles.submitButton}>
-          <Text style={styles.submitButtonText}>Sign In</Text>
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.submitButtonText}>Sign In</Text>
+          )}
         </TouchableOpacity>
-
+        {error && <Text style={styles.errorText}>{error}</Text>}
         {/* Sign Up Link */}
         <Text style={styles.p}>
           Don't have an account? <Text style={styles.span}>Sign Up</Text>
@@ -162,7 +186,7 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     borderWidth: 1,
-    borderColor: '#666',
+    borderColor: theme.colors.blacks.dark,
     marginRight: 5,
   },
   checkboxLabel: {
@@ -218,6 +242,7 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 20,
   },
+  errorText: { color: 'red', marginTop: 10 },
 });
 
 export default LoginScreen;

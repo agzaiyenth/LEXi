@@ -50,6 +50,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<JwtResponse>> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        log.info("Received login request: {}", LoginRequest.class);
+
         JwtResponse jwtResponse = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
         return ResponseEntity.ok(ApiResponse.success(jwtResponse, "Login successful!"));
     }
