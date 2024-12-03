@@ -1,13 +1,28 @@
-// app/(unprotected)/landing.tsx
+// app/(tabs)/account.tsx
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
-import { View, Text, Button } from 'react-native';
 
 export default function AccountScreen() {
   const { logout } = useAuth();
+
+  console.log('Rendering Account Screen'); // Debug log
+
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text>Account Screen</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Account Screen</Text>
       <Button title="Logout" onPress={logout} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 18,
+  },
+});

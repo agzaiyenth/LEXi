@@ -20,26 +20,26 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-  });
+  // const [loaded, error] = useFonts({
+  //   SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  //   ...FontAwesome.font,
+  // });
 
-  // Handle font loading errors.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  // // Handle font loading errors.
+  // useEffect(() => {
+  //   if (error) throw error;
+  // }, [error]);
 
-  // Hide the splash screen when fonts are loaded.
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+  // // Hide the splash screen when fonts are loaded.
+  // useEffect(() => {
+  //   if (loaded) {
+  //     SplashScreen.hideAsync();
+  //   }
+  // }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
+  // if (!loaded) {
+  //   return null;
+  // }
 
   return (
     <AuthProvider>
@@ -51,10 +51,14 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const { isLoggedIn } = useAuth();
+  
+  // For testing 
+  // const isLoggedIn = true;
+  console.log('Auth State:', isLoggedIn);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
+       <Stack screenOptions={{ headerShown: false }}>
         {isLoggedIn ? (
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         ) : (
