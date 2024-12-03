@@ -23,7 +23,7 @@
     },
     background: {
       offWhite: '#FFF9EB', // Off-white
-      beige: '#EAE2D6', // Beige
+      beige: '#F8ECD1', // Beige
       dark: '#D9CAB3',   // Darker beige
     },
   },
@@ -31,10 +31,10 @@
     regular: 'System',
     bold: 'System',
     sizes: {
-      small: 12,
-      medium: 16,
-      large: 20,
-      extraLarge: 24,
+      small: 16,
+      medium: 20,
+      large: 30,
+      extraLarge: 40,
     },
   },
   spacing: {

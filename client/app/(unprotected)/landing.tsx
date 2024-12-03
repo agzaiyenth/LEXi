@@ -1,18 +1,55 @@
-// app/(unprotected)/landing.tsx
-
 import React from 'react';
-import { View, Button, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
+import theme from '../theme';
+
+const { width: screenWidth } = Dimensions.get('window'); // Get the screen width
 
 export default function LandingPage() {
   const router = useRouter();
 
-
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the Landing Page!</Text>
-      <Button title="Login" onPress={() => router.push('/(unprotected)/auth/page')} />
-      <Button title="Register" onPress={() => router.push('/(unprotected)/auth/page')} />
+      {/* Logo and Title Container */}
+      <View style={styles.topContent}>
+        {/* Logo */}
+        <Image 
+          source={require('../images/auth/icon.png')} 
+          style={styles.logo} 
+          resizeMode="contain"
+        />
+        {/* Title */}
+        <Text style={styles.heading}>Lexi</Text>
+        <Text style={styles.text}>Learning is for everyone</Text>
+      </View>
+
+      {/* Center Image */}
+      <View style={styles.centerContent}>
+        <Image 
+          source={require('../images/auth/centerImage.png')} 
+          style={styles.centerImage} 
+          resizeMode="contain"
+        />
+      </View>
+
+      {/* Button Container */}
+      <View style={styles.buttonContainer}>
+        {/* Login Button */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push('/(unprotected)/auth/login')}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        {/* Register Button */}
+        <TouchableOpacity
+          style={[styles.button, styles.registerButton]}
+          onPress={() => router.push('/(unprotected)/auth/signup')}
+        >
+          <Text style={styles.registerButtonText}>Get Started</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -20,11 +57,66 @@ export default function LandingPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.primary.medium2,
+  },
+  topContent: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 40,
+  },
+  centerContent: {
+    flex: 2, 
+    justifyContent: 'flex-start', 
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+    alignItems: 'center',
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
   text: {
-    fontSize: 18,
-    marginBottom: 20,
+    fontSize: theme.fonts.sizes.medium,
+    fontWeight: 'bold',
+    color: theme.colors.background.beige,
+  },
+  heading: {
+    fontSize: theme.fonts.sizes.extraLarge,
+    fontWeight: 'bold',
+    color: theme.colors.background.beige,
+  },
+  centerImage: {
+    width: screenWidth, 
+    height: undefined, 
+    aspectRatio: 1,
+  },
+  button: {
+    width: '100%',
+    maxWidth: 300,
+    paddingVertical: 15,
+    backgroundColor: theme.colors.primary.medium,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: theme.colors.background.beige,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  registerButton: {
+    backgroundColor: theme.colors.primary.medium2,
+    borderWidth: 1,
+    borderColor: theme.colors.primary.medium,
+  },
+  registerButtonText: {
+    color: theme.colors.primary.medium,
+    fontWeight: 'bold',
   },
 });
