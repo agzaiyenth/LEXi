@@ -8,11 +8,17 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function TabLayout() {
   const animatedValue = useRef(new Animated.Value(0)).current;
-  const { isLoggedIn } = useAuth();
+// ToDo: set up protected routes 
+// ! Fix issue : Error: Attempted to navigate before mounting the Root Layout component. Ensure the Root Layout component is rendering a Slot, or other navigator on the first render.
 
-  if (!isLoggedIn) {
-    return null; // Optionally, display a loading indicator or placeholder
-  }
+  // const { isLoggedIn } = useAuth();
+
+  // if (!isLoggedIn) {
+  //   const router = useRouter();
+  //   useEffect(() => {
+  //     router.push('/(unprotected)/landing');
+  //   }, []);
+  // }
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background.offWhite }}>

@@ -50,10 +50,10 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const { isLoggedIn } = useAuth();
+  // const { isLoggedIn } = useAuth();
   
   // For testing 
-  // const isLoggedIn = true;
+  const isLoggedIn = true;
   console.log('Auth State:', isLoggedIn);
 
   return (

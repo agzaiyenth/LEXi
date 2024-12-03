@@ -37,7 +37,7 @@ export default function LandingPage() {
         {/* Login Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push('/(unprotected)/auth/login')}
+          onPress={() => router.push('/(unprotected)/login')}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
@@ -45,7 +45,7 @@ export default function LandingPage() {
         {/* Register Button */}
         <TouchableOpacity
           style={[styles.button, styles.registerButton]}
-          onPress={() => router.push('/(unprotected)/auth/signup')}
+          onPress={() => router.push('/(unprotected)/signup')}
         >
           <Text style={styles.registerButtonText}>Get Started</Text>
         </TouchableOpacity>

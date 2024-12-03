@@ -26,6 +26,11 @@
       beige: '#F8ECD1', // Beige
       dark: '#D9CAB3',   // Darker beige
     },
+    blacks:{
+      medium:'#151717',
+      dark:'#000000'
+
+    },
   },
   fonts: {
     regular: 'System',
