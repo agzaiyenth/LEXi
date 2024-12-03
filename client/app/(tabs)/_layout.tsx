@@ -26,6 +26,9 @@ const CustomTabBarButton = ({
       justifyContent: 'center',
       flex: 1,
       paddingVertical: theme.spacing.small,
+      backgroundColor: isFocused ? theme.colors.primary.medium2 : 'transparent',
+      borderRadius: theme.spacing.medium,
+     
     }}
   >
     <Icon
@@ -65,36 +68,16 @@ export default function TabLayout() {
         tabBar={({ navigation, state, descriptors }) => (
           <View
             style={{
+              flexDirection: 'row',
+              padding: theme.spacing.medium,
               position: 'absolute',
               bottom: 0,
-              left: 0,
-              right: 0,
               paddingVertical: theme.spacing.small,
               backgroundColor: theme.colors.primary.light2,
               borderTopLeftRadius: theme.spacing.large,
               borderTopRightRadius: theme.spacing.large,
-              flexDirection: 'row',
             }}
           >
-            <Animated.View
-              style={{
-                position: 'absolute',
-                height: '100%',
-                width: `${100 / state.routes.length}%`,
-                backgroundColor: theme.colors.primary.medium2,
-                borderRadius: theme.spacing.medium,
-                transform: [
-                  {
-                    translateX: animatedValue.interpolate({
-                      inputRange: state.routes.map((_, i) => i),
-                      outputRange: state.routes.map(
-                        (_, i) => `${i * (100 / state.routes.length)}%`
-                      ),
-                    }),
-                  },
-                ],
-              }}
-            />
             {state.routes.map((route, index) => {
               const { options } = descriptors[route.key];
               const isFocused = state.index === index;
@@ -108,24 +91,23 @@ export default function TabLayout() {
 
                 if (!isFocused && !event.defaultPrevented) {
                   navigation.navigate(route.name);
-                  handleTabPress(index);
                 }
               };
 
               const getIcon = () => {
                 switch (route.name) {
                   case 'index':
-                    return (props: any) => <MaterialIcons name="home" {...props} />;
+                    return (props) => <MaterialIcons name="home" {...props} />;
                   case 'learn':
-                    return (props: any) => <MaterialIcons name="apps" {...props} />;
+                    return (props) => <MaterialIcons name="apps" {...props} />;
                   case 'play':
-                    return (props: any) => <MaterialIcons name="sports-esports" {...props} />;
+                    return (props) => <MaterialIcons name="sports-esports" {...props} />;
                   case 'explore':
-                    return (props: any) => <MaterialIcons name="public" {...props} />;
+                    return (props) => <MaterialIcons name="public" {...props} />;
                   case 'account':
-                    return (props: any) => <MaterialIcons name="account-circle" {...props} />;
+                    return (props) => <MaterialIcons name="account-circle" {...props} />;
                   default:
-                    return (props: any) => <MaterialIcons name="home" {...props} />;
+                    return (props) => <MaterialIcons name="home" {...props} />;
                 }
               };
 
@@ -153,8 +135,6 @@ export default function TabLayout() {
                   icon={getIcon()}
                   isFocused={isFocused}
                   onPress={onPress}
-                  animatedValue={animatedValue}
-                  index={index}
                 />
               );
             })}
