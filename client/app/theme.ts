@@ -1,5 +1,5 @@
 // theme.ts
-export const theme = {
+ export  const theme = {
   colors: {
     primary: {
       dark1: '#264653',  // Darkest shade
@@ -48,3 +48,5 @@ export const theme = {
     fontScale: 1, // 1 for normal, >1 for larger fonts
   },
 };
+
+export default theme;
