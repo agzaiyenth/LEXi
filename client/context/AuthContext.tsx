@@ -1,35 +1,40 @@
-// app/context/AuthContext.tsx
-
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type AuthContextType = {
-  isLoggedIn: boolean;
+  isSignedIn: boolean;
   login: () => void;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
-  isLoggedIn: false,
+  isSignedIn: false,
   login: () => {},
   logout: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const login = () => {
-    // Implement your login logic here
-    setIsLoggedIn(true);
-  };
+  useEffect(() => {
+    // TODO:Simulate an auth state check (replace with real logic)
+    const checkAuth = async () => {
+      const user = await new Promise((resolve) =>
+        setTimeout(() => resolve(null), 1000)
+      );
+      setIsSignedIn(!!user);
+    };
 
-  const logout = () => {
-    // Implement your logout logic here
-    setIsLoggedIn(false);
-  };
+    checkAuth();
+  }, []);
+
+  const login = () => setIsSignedIn(true);
+  const logout = () => setIsSignedIn(false);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ isSignedIn, login, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
 };

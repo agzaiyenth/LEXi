@@ -14,7 +14,7 @@ import theme from '../theme';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { useRouter } from 'expo-router';
 
-const LoginScreen = () => {
+const SignInScreen = () => {
   const { login, loading, error } = useLogin();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -245,4 +245,4 @@ const styles = StyleSheet.create({
   errorText: { color: 'red', marginTop: 10 },
 });
 
-export default LoginScreen;
+export default SignInScreen;

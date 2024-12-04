@@ -5,7 +5,7 @@ import theme from '../theme';
 
 const { width: screenWidth } = Dimensions.get('window'); // Get the screen width
 
-export default function LandingPage() {
+export default function LandingScreen({ navigation}:any ) {
   const router = useRouter();
 
   return (
@@ -37,7 +37,7 @@ export default function LandingPage() {
         {/* Login Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => router.push('/(unprotected)/login')}
+          onPress={() => navigation.navigate('SignIn')}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
@@ -45,7 +45,7 @@ export default function LandingPage() {
         {/* Register Button */}
         <TouchableOpacity
           style={[styles.button, styles.registerButton]}
-          onPress={() => router.push('/(unprotected)/signup')}
+          onPress={() => navigation.navigate('SignUp')} 
         >
           <Text style={styles.registerButtonText}>Get Started</Text>
         </TouchableOpacity>
