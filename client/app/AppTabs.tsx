@@ -28,10 +28,10 @@ export default function AppTabs() {
   );
 }
 
-const CustomTabBar = ({ state, descriptors, navigation }) => {
+const CustomTabBar = ({ state, descriptors, navigation }:any) => {
   return (
     <View style={styles.tabBar}>
-      {state.routes.map((route, index) => {
+      {state.routes.map((route:any, index:any) => {
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;
 
@@ -47,7 +47,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           }
         };
 
-        const getIcon = (name) => {
+        const getIcon = (name:any) => {
           switch (name) {
             case 'Home':
               return 'home';
@@ -65,7 +65,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
         };
 
         return (
-          <>
           <TouchableOpacity
             key={route.key}
             onPress={onPress}
@@ -89,8 +88,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             </View>
             {isFocused && <View style={styles.underline} />}
           </TouchableOpacity>
-          
-          </>
+        
         );
       })}
     </View>

@@ -13,6 +13,7 @@ import { Feather } from '@expo/vector-icons';
 import theme from '../theme';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { useRouter } from 'expo-router';
+import { showToast } from '@/utils/notifications';
 
 const SignInScreen = () => {
   const { login, loading, error } = useLogin();
@@ -24,13 +25,23 @@ const SignInScreen = () => {
   const handleLogin = async () => {
     try {
       const user = await login(username, password);
-      // Alert.alert('Login Successful', `Welcome, ${user.fullName}!`);
+      showToast({ 
+      title: 'Login Successful', 
+      preset: 'done',
+      duration: 2,
+      haptic: 'success',
+    });
       console.log(user, 'user loged in');
-      router.push('/');
+      router.push('./AppTabs');
       
-    } catch (error) {
+    } catch (error: any) {
       console.log(error, 'error loging in');
-      // Alert.alert('Login Failed', error.message);
+      showToast({
+        title: 'Login Failed',
+        preset: 'error',
+        duration: 2,
+        haptic: 'error',
+      });
     }
   };
 

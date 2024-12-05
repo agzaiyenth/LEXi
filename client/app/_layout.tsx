@@ -53,7 +53,7 @@ export default function RootLayout() {
 function RootNavigator() {
   // const { isSignedIn } = useAuth()
 
-  const isSignedIn = true
+  const isSignedIn = false
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
