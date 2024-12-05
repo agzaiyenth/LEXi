@@ -1,5 +1,5 @@
 // app/hooks/auth/useLogout.ts
-import apiClient from '@/app/apiClient';
+import apiClient, { setAccessToken } from '@/app/apiClient';
 import { useSession } from '@/app/ctx';
 
 export const useLogout = () => {
@@ -9,9 +9,10 @@ export const useLogout = () => {
     try {
       await apiClient.post('/auth/logout');
     } catch (err: any) {
-      console.warn('Logout failed:', err.message);
+      console.log('Logout failed:', err.message);
     } finally {
       signOut();
+      setAccessToken(null); // Clear the token in apiClient
     }
   };
 

@@ -1,6 +1,6 @@
 // app/(auth)/SignIn/index.tsx
 import { Feather } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -15,6 +15,7 @@ import theme from '../../theme';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { useRouter } from 'expo-router';
 import { showToast } from '@/utils/notifications';
+import { useSession } from '@/app/ctx';
 
 const SignInScreen = () => {
   const { login, loading, error } = useLogin();
@@ -22,18 +23,25 @@ const SignInScreen = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const { session } = useSession();
 
+  useEffect(() => {
+    if (session) {
+      router.replace('/(main)');
+    }
+  }, [session, router]);
 
   const handleLogin = async () => {
     try {
-      await login(username, password);
+      const token = await login(username, password);
       showToast({
         title: 'Login Successful!',
         preset: 'done',
         haptic: "success",
         from:"top",
       })
-      router.replace('/'); 
+      console.log('Login successful:', token);
+      router.push('/(main)');
     } catch (err:any) {
       showToast({
         title: 'Login Failed!',

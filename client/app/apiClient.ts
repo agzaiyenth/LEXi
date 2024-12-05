@@ -1,18 +1,21 @@
 // app/apiClient.ts
 import axios from 'axios';
 import { BASE_URL } from '@/config';
-import { useSession } from './ctx';
+
+let accessToken: string | null = null;
+
+export const setAccessToken = (token: string | null) => {
+  accessToken = token;
+};
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
 });
 
 apiClient.interceptors.request.use(
   async (config) => {
-    const { session } = useSession();
-    if (session && config.headers) {
-      config.headers.Authorization = `Bearer ${session}`;
+    if (accessToken && config.headers) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
