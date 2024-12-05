@@ -3,8 +3,11 @@ import React from 'react'
 
 export default function AccountScreen() {
   return (
+
+
     <View>
       <Text>AccountScreen</Text>
+      
     </View>
   )
 }

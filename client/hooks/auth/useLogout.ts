@@ -1,11 +1,10 @@
-// app/hooks/auth/useLogout.js
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 export const useLogout = () => {
   const logout = async () => {
-    // Clear tokens from storage
-    await AsyncStorage.removeItem('accessToken');
-    await AsyncStorage.removeItem('refreshToken');
+    // Clear tokens from secure storage
+    await SecureStore.deleteItemAsync('accessToken');
+    await SecureStore.deleteItemAsync('refreshToken');
   };
 
   return { logout };
