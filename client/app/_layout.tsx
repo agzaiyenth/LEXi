@@ -1,13 +1,11 @@
 // app/_layout.tsx
-import React from 'react'
-import { AuthProvider, useAuth } from '@/context/AuthContext'
 import { createStackNavigator } from '@react-navigation/stack'
-import { SplashScreen } from 'expo-router'
-import AppTabs from './AppTabs'
-import AuthStack from './AuthStack'
+import React from 'react'
+// import { SplashScreen } from 'expo-router'
+import { Slot } from 'expo-router'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-
-const Stack = createStackNavigator()
+import { SessionProvider } from './ctx'
+const Stack = createStackNavigator();
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -15,10 +13,10 @@ export {
 } from 'expo-router'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync()
+// SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-    // const [loaded, error] = useFonts({
+  // const [loaded, error] = useFonts({
   //   SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   //   ...FontAwesome.font,
   // })
@@ -40,29 +38,13 @@ export default function RootLayout() {
   // }
 
   return (
-    <AuthProvider>
-      {/* <NavigationContainer> */}
-      <SafeAreaProvider>
-        <RootNavigator />
-        </SafeAreaProvider>
-      {/* </NavigationContainer> */}
-    </AuthProvider>
+    <SessionProvider>
+    <SafeAreaProvider>
+     
+        <Slot />
+      
+    </SafeAreaProvider>
+    </SessionProvider>
   )
 }
 
-function RootNavigator() {
-  const { isSignedIn } = useAuth()
-
-  // !Manulay set isSignedIn to true for testing
-  // const isSignedIn = true
-
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isSignedIn ? (
-        <Stack.Screen name="App" component={AppTabs} />
-      ) : (
-        <Stack.Screen name="Auth" component={AuthStack} />
-      )}
-    </Stack.Navigator>
-  )
-}

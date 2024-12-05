@@ -1,11 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+// app/(auth)/LandingScreen.tsx
 import { useRouter } from 'expo-router';
+import React from 'react';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import theme from '../theme';
 
 const { width: screenWidth } = Dimensions.get('window'); // Get the screen width
 
-export default function LandingScreen({ navigation}:any ) {
+export default function LandingScreen() {
   const router = useRouter();
 
   return (
@@ -13,9 +14,9 @@ export default function LandingScreen({ navigation}:any ) {
       {/* Logo and Title Container */}
       <View style={styles.topContent}>
         {/* Logo */}
-        <Image 
-          source={require('../images/auth/icon.png')} 
-          style={styles.logo} 
+        <Image
+          source={require('@/assets/images/auth/icon.png')}
+          style={styles.logo}
           resizeMode="contain"
         />
         {/* Title */}
@@ -25,9 +26,9 @@ export default function LandingScreen({ navigation}:any ) {
 
       {/* Center Image */}
       <View style={styles.centerContent}>
-        <Image 
-          source={require('../images/auth/centerImage.png')} 
-          style={styles.centerImage} 
+        <Image
+          source={require('@/assets/images/auth/centerImage.png')}
+          style={styles.centerImage}
           resizeMode="contain"
         />
       </View>
@@ -37,15 +38,17 @@ export default function LandingScreen({ navigation}:any ) {
         {/* Login Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => router.push('/(auth)/SignIn')}
         >
-          <Text style={styles.buttonText}>Login</Text>
+
+          <Text style={styles.buttonText}>Login!</Text>
+
         </TouchableOpacity>
 
         {/* Register Button */}
         <TouchableOpacity
           style={[styles.button, styles.registerButton]}
-          onPress={() => navigation.navigate('SignUp')} 
+          onPress={() => router.push('/(auth)/Signup')}
         >
           <Text style={styles.registerButtonText}>Get Started</Text>
         </TouchableOpacity>
@@ -66,8 +69,8 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   centerContent: {
-    flex: 2, 
-    justifyContent: 'flex-start', 
+    flex: 2,
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   buttonContainer: {
@@ -92,8 +95,8 @@ const styles = StyleSheet.create({
     color: theme.colors.background.beige,
   },
   centerImage: {
-    width: screenWidth, 
-    height: undefined, 
+    width: screenWidth,
+    height: undefined,
     aspectRatio: 1,
   },
   button: {

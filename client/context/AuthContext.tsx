@@ -1,63 +1,89 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useReducer, useContext, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { useLogin } from '@/hooks/auth/useLogin';
-import { useLogout } from '@/hooks/auth/useLogout';
-import { Platform } from 'react-native';
+import apiClient from '@/app/apiClient';
 
-type AuthContextType = {
-  isSignedIn: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  loading: boolean;
-  error: string | null;
+type AuthState = {
+  isLoading: boolean;
+  isSignout: boolean;
+  userToken: string | null;
 };
 
-const AuthContext = createContext<AuthContextType>({
-  isSignedIn: false,
-  login: async () => {},
-  logout: async () => {},
-  loading: false,
-  error: null,
-});
+type AuthAction =
+  | { type: 'RESTORE_TOKEN'; token: string | null }
+  | { type: 'SIGN_IN'; token: string }
+  | { type: 'SIGN_OUT' };
 
-export const useAuth = () => useContext(AuthContext);
+type AuthContextType = {
+  signIn: (username: string, password: string) => Promise<void>;
+  signOut: () => void;
+  signUp: (data: any) => Promise<void>;
+  state: AuthState;
+};
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const { login: performLogin, loading, error } = useLogin();
-  const { logout: performLogout } = useLogout();
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-  // Restore session from secure storage
+function authReducer(state: AuthState, action: AuthAction): AuthState {
+  switch (action.type) {
+    case 'RESTORE_TOKEN':
+      return { ...state, userToken: action.token, isLoading: false };
+    case 'SIGN_IN':
+      return { ...state, isSignout: false, userToken: action.token };
+    case 'SIGN_OUT':
+      return { ...state, isSignout: true, userToken: null };
+    default:
+      throw new Error(`Unhandled action type: ${action}`);
+  }
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(authReducer, {
+    isLoading: true,
+    isSignout: false,
+    userToken: null,
+  });
+
   useEffect(() => {
-    const restoreSession = async () => {
-      if (Platform.OS === 'web') {
-        
-      } else {
-      const token = await SecureStore.getItemAsync('accessToken');
-      setIsSignedIn(!!token);}
+    const restoreToken = async () => {
+      let token;
+      try {
+        token = await SecureStore.getItemAsync('accessToken');
+      } catch (e) {
+        console.error('Failed to restore token', e);
+      }
+      dispatch({ type: 'RESTORE_TOKEN', token: token ?? null });
     };
-
-    restoreSession();
+    restoreToken();
   }, []);
 
-  const login = useCallback(
-    async (username: string, password: string) => {
-      const data = await performLogin(username, password);
-      if (data.accessToken) {
-        setIsSignedIn(true);
-      }
-    },
-    [performLogin]
-  );
+  const signIn = async (username: string, password: string) => {
+    const { data } = await apiClient.post('/auth/login', { username, password });
+    await SecureStore.setItemAsync('accessToken', data.accessToken);
+    dispatch({ type: 'SIGN_IN', token: data.accessToken });
+  };
 
-  const logout = useCallback(async () => {
-    await performLogout();
-    setIsSignedIn(false);
-  }, [performLogout]);
+  const signOut = async () => {
+    await SecureStore.deleteItemAsync('accessToken');
+    dispatch({ type: 'SIGN_OUT' });
+  };
+
+  const signUp = async (data: any) => {
+    const response = await apiClient.post('/auth/signup', data);
+    const { accessToken } = response.data;
+    await SecureStore.setItemAsync('accessToken', accessToken);
+    dispatch({ type: 'SIGN_IN', token: accessToken });
+  };
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, login, logout, loading, error }}>
+    <AuthContext.Provider value={{ signIn, signOut, signUp, state }}>
       {children}
     </AuthContext.Provider>
   );
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

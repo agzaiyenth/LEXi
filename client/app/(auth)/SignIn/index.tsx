@@ -1,16 +1,17 @@
+// app/(auth)/SignIn/index.tsx
+import { Feather } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import theme from '../theme';
+import theme from '../../theme';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { useRouter } from 'expo-router';
 import { showToast } from '@/utils/notifications';
@@ -22,36 +23,34 @@ const SignInScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
+
   const handleLogin = async () => {
     try {
-      const user = await login(username, password);
-      showToast({ 
-      title: 'Login Successful', 
-      preset: 'done',
-      duration: 2,
-      haptic: 'success',
-      from: 'top',
-    });
-      console.log(user, 'user loged in');
-      router.push('./AppTabs');
-      
-    } catch (error: any) {
-      console.log(error, 'error loging in');
+      await login(username, password);
       showToast({
-        title: 'Login Failed',
+        title: 'Login Successful!',
+        preset: 'done',
+        haptic: "success",
+        from:"top",
+      })
+      router.replace('/'); 
+    } catch (err:any) {
+      showToast({
+        title: 'Login Failed!',
         preset: 'error',
-        haptic: 'error',
-        duration: 2,
-        from: 'top',
-      });
+        haptic: "error",
+        from:"top",
+      })
+      console.error('Login failed:', err.message);
     }
   };
+
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
         <Image
-          source={require('../images/auth/icon.png')}
+          source={require('@/assets/images/auth/icon.png')}
           style={styles.logo}
           resizeMode="contain"
         />

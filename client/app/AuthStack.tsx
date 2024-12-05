@@ -1,9 +1,9 @@
 // app/AuthStack.tsx
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import LandingScreen from './screens/LandingScreen'
-import SignInScreen from './screens/SignInScreen'
-import SignUpScreen from './screens/SignUpScreen'
+import LandingScreen from './(auth)/LandingScreen'
+import SignInScreen from './(auth)/SignIn'
+import SignUpScreen from './(auth)/Signup'
 
 
 const Stack = createStackNavigator()

@@ -1,40 +1,26 @@
+// app/hooks/auth/useLogin.ts
 import { useState } from 'react';
-import * as SecureStore from 'expo-secure-store';
-import { BASE_URL } from '@/config';
+import apiClient from '@/app/apiClient';
+import { useSession } from '@/app/ctx';
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { signIn } = useSession(); // This should now work correctly
 
   const login = async (username: string, password: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await apiClient.post('/auth/login', { username, password });
+      const { accessToken } = response.data;
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
-        console.log('errorData', errorData);
-      }
+      signIn(accessToken);
 
-      const { accessToken, refreshToken } = await response.json();
-
-      // Store tokens securely
-      await SecureStore.setItemAsync('accessToken', accessToken);
-      await SecureStore.setItemAsync('refreshToken', refreshToken);
-
-      return { accessToken, refreshToken };
+      return { accessToken };
     } catch (err: any) {
-      setError(err.message);
-      console.log('err', err);
+      setError(err.response?.data?.message || 'An error occurred during login.');
       throw err;
     } finally {
       setLoading(false);

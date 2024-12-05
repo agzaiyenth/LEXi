@@ -2,14 +2,17 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
-import HomeScreen from './screens/HomeScreen';
-import LearnScreen from './screens/LearnScreen';
-import PlayScreen from './screens/PlayScreen';
-import ExploreScreen from './screens/ExploreScreen';
-import AccountScreen from './screens/AccountScreen';
+import HomeScreen from './(main)';
+import LearnScreen from './(main)/LearnZone';
+import PlayScreen from './(main)/PlaySpace';
+import ExploreScreen from './(main)/Explore';
+import AccountScreen from './(main)/Account';
 import theme from './theme';
+import { AppTabParamList } from '@/types/common/navigation';
 
-const Tab = createBottomTabNavigator();
+
+const Tab = createBottomTabNavigator<AppTabParamList>();
+
 
 export default function AppTabs() {
   return (

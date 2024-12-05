@@ -1,10 +1,18 @@
-import * as SecureStore from 'expo-secure-store';
+// app/hooks/auth/useLogout.ts
+import apiClient from '@/app/apiClient';
+import { useSession } from '@/app/ctx';
 
 export const useLogout = () => {
+  const { signOut } = useSession();
+
   const logout = async () => {
-    // Clear tokens from secure storage
-    await SecureStore.deleteItemAsync('accessToken');
-    await SecureStore.deleteItemAsync('refreshToken');
+    try {
+      await apiClient.post('/auth/logout');
+    } catch (err: any) {
+      console.warn('Logout failed:', err.message);
+    } finally {
+      signOut();
+    }
   };
 
   return { logout };
