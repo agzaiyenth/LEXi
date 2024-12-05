@@ -1,7 +1,6 @@
 package com.lexi.auth.controller;
 
 import com.lexi.auth.model.User;
-import com.lexi.common.dto.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ public class GoogleOAuthController {
     @GetMapping("/google")
     public ResponseEntity<?> redirectToGoogleAuth() {
         String googleAuthUrl = googleOAuthService.getGoogleAuthUrl();
-        return ResponseEntity.ok(ApiResponse.success(googleAuthUrl, "Redirect URL generated successfully"));
+        return ResponseEntity.ok(googleAuthUrl);
     }
 
     @GetMapping("/google/callback")
@@ -31,6 +30,6 @@ public class GoogleOAuthController {
         String accessToken = googleOAuthService.exchangeCodeForAccessToken(code);
         User googleUser = googleOAuthService.getUserInfoFromGoogle(accessToken);
         // TODO: Handle user authentication or creation
-        return ResponseEntity.ok(ApiResponse.success(googleUser,"User authenticated successfully"));
+        return ResponseEntity.ok(googleUser);
     }
 }

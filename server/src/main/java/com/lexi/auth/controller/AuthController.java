@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import com.lexi.auth.dto.*;
 import com.lexi.auth.service.AuthService;
 import com.lexi.auth.service.UserService;
-import com.lexi.common.dto.ApiResponse;
 
 import jakarta.validation.Valid;
 
@@ -41,35 +40,34 @@ public class AuthController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<SignupResponse>> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<SignupResponse> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
         authService.validateSignupRequest(signupRequest);
         userService.saveUser(authService.registerUser(signupRequest));
         SignupResponse response = new SignupResponse(signupRequest.getUsername(), signupRequest.getEmail(), "Signup successful!");
-        return ResponseEntity.ok(ApiResponse.success(response, "User registered successfully!"));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<JwtResponse>> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        log.info("Received login request: {}", LoginRequest.class);
+    public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        log.info("Received login request: {}", loginRequest);
 
         JwtResponse jwtResponse = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-        return ResponseEntity.ok(ApiResponse.success(jwtResponse, "Login successful!"));
+        return ResponseEntity.ok(jwtResponse);
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<ApiResponse<JwtResponse>> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
+    public ResponseEntity<JwtResponse> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
         JwtResponse jwtResponse = authService.refreshAccessToken(request.getRefreshToken());
-        return ResponseEntity.ok(ApiResponse.success(jwtResponse, "Token refreshed successfully!"));
+        return ResponseEntity.ok(jwtResponse);
     }
 
-
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logoutUser(@RequestParam String username,@RequestParam String refreshToken) {
+    public ResponseEntity<Void> logoutUser(@RequestParam String username, @RequestParam String refreshToken) {
         try {
             authService.logout(username, refreshToken);
-            return ResponseEntity.ok(ApiResponse.success(null, "Logout successful!"));
+            return ResponseEntity.ok().build();
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
