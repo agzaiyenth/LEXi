@@ -22,6 +22,7 @@ export const useLogin = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Login failed');
+        console.log('errorData', errorData);
       }
 
       const { accessToken, refreshToken } = await response.json();
@@ -33,6 +34,7 @@ export const useLogin = () => {
       return { accessToken, refreshToken };
     } catch (err: any) {
       setError(err.message);
+      console.log('err', err);
       throw err;
     } finally {
       setLoading(false);

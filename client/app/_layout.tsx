@@ -51,9 +51,10 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  // const { isSignedIn } = useAuth()
+  const { isSignedIn } = useAuth()
 
-  const isSignedIn = false
+  // !Manulay set isSignedIn to true for testing
+  // const isSignedIn = true
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

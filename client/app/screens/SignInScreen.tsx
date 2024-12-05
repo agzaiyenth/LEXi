@@ -40,8 +40,8 @@ const SignInScreen = () => {
       showToast({
         title: 'Login Failed',
         preset: 'error',
-        duration: 2,
         haptic: 'error',
+        duration: 2,
         from: 'top',
       });
     }

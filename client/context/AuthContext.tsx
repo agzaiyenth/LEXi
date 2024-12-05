@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import * as SecureStore from 'expo-secure-store';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { useLogout } from '@/hooks/auth/useLogout';
+import { Platform } from 'react-native';
 
 type AuthContextType = {
   isSignedIn: boolean;
@@ -29,8 +30,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Restore session from secure storage
   useEffect(() => {
     const restoreSession = async () => {
+      if (Platform.OS === 'web') {
+        
+      } else {
       const token = await SecureStore.getItemAsync('accessToken');
-      setIsSignedIn(!!token);
+      setIsSignedIn(!!token);}
     };
 
     restoreSession();
