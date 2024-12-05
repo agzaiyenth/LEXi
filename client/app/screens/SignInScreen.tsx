@@ -30,6 +30,7 @@ const SignInScreen = () => {
       preset: 'done',
       duration: 2,
       haptic: 'success',
+      from: 'top',
     });
       console.log(user, 'user loged in');
       router.push('./AppTabs');
@@ -41,6 +42,7 @@ const SignInScreen = () => {
         preset: 'error',
         duration: 2,
         haptic: 'error',
+        from: 'top',
       });
     }
   };

@@ -52,7 +52,7 @@ export const showToast = async ({
   haptic = "none",
   duration = 2,
   shouldDismissByDrag = true,
-  from = "bottom",
+  from = "top",
   layout,
   icon,
 }: ToastOptions): Promise<void> => {
