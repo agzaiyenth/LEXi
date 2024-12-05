@@ -15,7 +15,7 @@ export const useLogin = () => {
 
     try {
       const response = await apiClient.post('/auth/login', { username, password });
-      const { accessToken } = response.data.data;
+      const { accessToken } = response.data;
 
       // Store tokens securely in context
       signIn(accessToken);
