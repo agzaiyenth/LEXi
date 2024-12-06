@@ -39,4 +39,14 @@ public class AuthExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ex.getMessage());
     }
+ @ExceptionHandler(TokenRefreshException.class)
+public ResponseEntity<String> handleTokenRefresh(TokenRefreshException ex) {
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+}
+
+// Generic fallback
+@ExceptionHandler(Exception.class)
+public ResponseEntity<String> handleGeneric(Exception ex) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+}
 }

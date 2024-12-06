@@ -78,7 +78,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
             case 'Account':
               return 'account-circle';
             default:
-              return 'Home';
+              return 'home';
           }
         };
 

@@ -33,27 +33,32 @@ const SignInScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const token = await login(username, password);
+      // Pass an object matching the LoginRequest interface
+      const token = await login({ username, password });
+  
       showToast({
         title: 'Login Successful!',
         preset: 'done',
-        haptic: "success",
-        from:"top",
-      })
+        haptic: 'success',
+        from: 'top',
+      });
+  
       console.log('Login successful:', token);
+  
+      // Redirect to the main area of the app
       router.push('/(main)');
-    } catch (err:any) {
+    } catch (err: any) {
       showToast({
         title: 'Login Failed!',
         preset: 'error',
-        haptic: "error",
-        from:"top",
-      })
+        haptic: 'error',
+        from: 'top',
+      });
+  
       console.error('Login failed:', err.message);
     }
   };
-
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>

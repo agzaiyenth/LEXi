@@ -1,14 +1,12 @@
 // types/auth.ts
-
-import { ApiResponse } from "../common/apiresponse";
-
-
-export interface LoginResponseDTO {
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
   username: string;
   fullName: string;
   roles: string[];
 }
-
-export type LoginResponse = ApiResponse<LoginResponseDTO>;
