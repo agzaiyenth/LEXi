@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useContext, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import apiClient from '@/app/apiClient';
+import apiClient from '@/src/apiClient';
 
 type AuthState = {
   isLoading: boolean;

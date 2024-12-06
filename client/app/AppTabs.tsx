@@ -7,7 +7,7 @@ import LearnScreen from './(main)/LearnZone';
 import PlayScreen from './(main)/PlaySpace';
 import ExploreScreen from './(main)/Explore';
 import AccountScreen from './(main)/Account';
-import theme from './theme';
+import theme from '../src/theme';
 import { AppTabParamList } from '@/types/common/navigation';
 
 

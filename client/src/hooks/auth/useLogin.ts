@@ -1,7 +1,7 @@
 // app/hooks/auth/useLogin.ts
 import { useState } from 'react';
-import apiClient, { setAccessToken } from '@/app/apiClient';
-import { useSession } from '@/app/ctx';
+import apiClient, { setAccessToken } from '@/src/apiClient';
+import { useSession } from '@/src/ctx';
 import { router } from 'expo-router';
 
 export const useLogin = () => {

@@ -11,11 +11,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import theme from '../../theme';
-import { useLogin } from '@/hooks/auth/useLogin';
+import theme from '../../../src/theme';
+import { useLogin } from '@/src/hooks/auth/useLogin';
 import { useRouter } from 'expo-router';
 import { showToast } from '@/utils/notifications';
-import { useSession } from '@/app/ctx';
+import { useSession } from '@/src/ctx';
 
 const SignInScreen = () => {
   const { login, loading, error } = useLogin();

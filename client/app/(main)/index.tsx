@@ -3,8 +3,8 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
 import React from 'react';
-import { useSession } from '../ctx';
-import { theme } from '../theme';
+import { useSession } from '../../src/ctx';
+import { theme } from '../../src/theme';
 
 export default function HomeScreen() {
   const { signOut } = useSession();

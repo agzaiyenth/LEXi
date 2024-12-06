@@ -2,12 +2,10 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 // import { SplashScreen } from 'expo-router'
-import { Redirect, Slot } from 'expo-router'
+import { Slot } from 'expo-router'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { SessionProvider, useSession } from './ctx'
-import { Text } from 'react-native'
-const Stack = createStackNavigator();
-const { session, isLoading } = useSession();
+import { SessionProvider } from '../src/ctx'
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary
@@ -37,14 +35,8 @@ export default function RootLayout() {
   // if (!loaded) {
   //   return null
   // }
-  if (isLoading) {
-    return <Text>Loading...</Text>; // Show loading state while checking session
-  }
 
-  if (!session) {
-    console.log('No Session Redirecting to auth')
-    return <Redirect href="./(auth)" />; // Redirect unauthenticated users
-  }
+const Stack = createStackNavigator();
   return (
     <SessionProvider>
     <SafeAreaProvider>

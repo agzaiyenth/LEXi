@@ -20,7 +20,7 @@ export const useSession = () => {
   return context;
 };
 
-export const SessionProvider = ({ children }: PropsWithChildren) => {
+export  const SessionProvider = ({ children }: PropsWithChildren) => {
   const [[isLoading, session], setSession] = useStorageState('session');
 
   // Set the accessToken in apiClient when session changes
