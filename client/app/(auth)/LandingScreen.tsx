@@ -41,7 +41,7 @@ export default function LandingScreen() {
           onPress={() => router.push('/(auth)/SignIn')}
         >
 
-          <Text style={styles.buttonText}>Login!</Text>
+          <Text style={styles.buttonText}>Login</Text>
 
         </TouchableOpacity>
 

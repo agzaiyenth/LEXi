@@ -1,5 +1,5 @@
 // app/(auth)/SignIn/index.tsx
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, Feather, MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import theme from '../../../src/theme';
 import { useLogin } from '@/src/hooks/auth/useLogin';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { showToast } from '@/utils/notifications';
 import { useSession } from '@/src/ctx';
 
@@ -114,7 +114,9 @@ const SignInScreen = () => {
             <Text style={styles.checkboxLabel}>Remember me</Text>
           </View>
           <TouchableOpacity>
+            <Link href={'/(auth)/ForgetPassword'}>
             <Text style={styles.span}>Forgot password?</Text>
+            </Link>
           </TouchableOpacity>
         </View>
 
@@ -132,17 +134,21 @@ const SignInScreen = () => {
         </TouchableOpacity>
         {error && <Text style={styles.errorText}>{error}</Text>}
         {/* Sign Up Link */}
+        <Link href={'/(auth)/Signup'}>
         <Text style={styles.p}>
           Don't have an account? <Text style={styles.span}>Sign Up</Text>
         </Text>
+        </Link>
         <Text style={styles.p}>Or With</Text>
 
         {/* Social Buttons */}
         <View style={styles.flexRow}>
-          <TouchableOpacity style={[styles.socialButton, styles.googleButton]}>
+          <TouchableOpacity style={[styles.socialButton]}>
+          <AntDesign name="google" size={24} color={styles.socialIcons.backgroundColor} />
             <Text style={styles.socialButtonText}>Google</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.socialButton, styles.appleButton]}>
+          <TouchableOpacity style={[styles.socialButton]}>
+          <AntDesign name="apple1" size={24} color={styles.socialIcons.backgroundColor}/>
             <Text style={styles.socialButtonText}>Apple</Text>
           </TouchableOpacity>
         </View>
@@ -238,19 +244,19 @@ const styles = StyleSheet.create({
   },
   socialButton: {
     flex: 1,
+    flexDirection: "row",
+    gap:8,
     height: 50,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: theme.colors.primary.medium2,
+    backgroundColor: theme.colors.primary.medium2,
     marginHorizontal: 5,
   },
-  googleButton: {
-    backgroundColor: theme.colors.primary.medium2,
-  },
-  appleButton: {
-    backgroundColor: theme.colors.primary.medium2,
+  socialIcons:{
+    backgroundColor: theme.colors.background.beige,
   },
   socialButtonText: {
     fontWeight: '500',
