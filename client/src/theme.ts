@@ -1,5 +1,5 @@
 // theme.ts
-export const theme = {
+ export  const theme = {
   colors: {
     primary: {
       dark1: '#264653',  // Darkest shade
@@ -23,18 +23,23 @@ export const theme = {
     },
     background: {
       offWhite: '#FFF9EB', // Off-white
-      beige: '#EAE2D6', // Beige
+      beige: '#F8ECD1', // Beige
       dark: '#D9CAB3',   // Darker beige
+    },
+    blacks:{
+      medium:'#151717',
+      dark:'#000000'
+
     },
   },
   fonts: {
     regular: 'System',
     bold: 'System',
     sizes: {
-      small: 12,
-      medium: 16,
-      large: 20,
-      extraLarge: 24,
+      small: 16,
+      medium: 20,
+      large: 30,
+      extraLarge: 40,
     },
   },
   spacing: {
@@ -48,3 +53,5 @@ export const theme = {
     fontScale: 1, // 1 for normal, >1 for larger fonts
   },
 };
+
+export default theme;

@@ -70,8 +70,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 // TODO: Update this to front end port and add the port to a env file
 
-//        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // FRONT END PORT
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8081","exp://192.168.1.2:8081","http://://192.168.1.2:8081","http://10.0.2.2")); // FRONT END PORT
+//        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
