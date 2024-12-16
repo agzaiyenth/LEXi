@@ -14,6 +14,14 @@ import theme from '../../../src/theme';
 import { Link, useRouter } from 'expo-router';
 import { showToast } from '@/utils/notifications';
 
+/**
+ * SignUpScreen component for user registration.
+ *
+ * This screen provides a form for users to input their username, email,
+   password, and confirm password. It validates the inputs, and redirects to the Sign-In page
+   upon success.
+ */
+
 const SignUpScreen = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -24,12 +32,22 @@ const SignUpScreen = () => {
   const [errors, setErrors] = useState({ username: '', email: '', password: '' });
   const router = useRouter();
 
+  /**
+   * Handles the sign-up process.
+   * This function performs basic input validation and if successful, it shows a success message and redirects to
+    the Sign-In page.
+   
+   * @function handleSignUp
+   */
+  
   const handleSignUp = async () => {
 
     setLoading(true);
 
     try{
       const msg = await signUp({username, email, password, confirmPassword});
+      
+      //Success notification
       showToast({
         title: 'Sign Up Successful!',
         preset: 'done',
@@ -37,9 +55,11 @@ const SignUpScreen = () => {
         from: 'top',
       });
       console.log('Sign Up successful:' + msg);
+      //Redirect to sign-in
       router.push('/(auth)/SignIn');
 
     }catch (err: any){
+      //error notification
       showToast({
         title: 'Sign Up Failed!',
         preset: 'error',
