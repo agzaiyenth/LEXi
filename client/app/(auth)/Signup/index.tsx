@@ -29,14 +29,14 @@ const SignUpScreen = () => {
     setLoading(true);
 
     try{
-      await signUp({username, email, password, confirmPassword});
+      const msg = await signUp({username, email, password, confirmPassword});
       showToast({
         title: 'Sign Up Successful!',
         preset: 'done',
         haptic: 'success',
         from: 'top',
       });
-      console.log('Sign Up successful');
+      console.log('Sign Up successful:' + msg);
       router.push('/(auth)/SignIn');
 
     }catch (err: any){
