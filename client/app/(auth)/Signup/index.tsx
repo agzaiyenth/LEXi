@@ -85,13 +85,15 @@ export default function SignUpScreen() {
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
           />
-          
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Feather name={showPassword ? 'eye' : 'eye-off'} size={20} color="#666" />
+          </TouchableOpacity>
         </View>
 
       {/* Confirm Password Input */}
       <View style={styles.flexColumn}>
-          <Text style={styles.label}>Confirm Password</Text>
-        </View>
+        <Text style={styles.label}>Confirm Password</Text>
+      </View>
         <View style={styles.inputForm}>
           <Feather name="lock" size={20} color="#666" />
           <TextInput
@@ -102,8 +104,27 @@ export default function SignUpScreen() {
             secureTextEntry={!showPassword}
           />
         </View>
-      
-      
+
+        {/* Submit Button */}
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={handleSignUp}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.submitButtonText}>Sign Up</Text>
+          )}
+        </TouchableOpacity>
+        
+        {/* Sign In Link */}
+        <Link href={'/(auth)/SignIn'}>
+          <Text style={styles.p}>
+            Already have an account? <Text style={styles.span}>Sign In</Text>
+          </Text>
+        </Link>
+
 
 
     </View>
