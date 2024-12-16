@@ -16,14 +16,40 @@ import { showToast } from '@/utils/notifications';
 
 export default function SignUpScreen() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({ username: '', email: '', password: '' });
   const router = useRouter();
 
   const handleSignUp = async () => {
-    // handle sign up logic
+
+    setLoading(true);
+
+    try{
+      await signUp({username, email, password, confirmPassword});
+      showToast({
+        title: 'Sign Up Successful!',
+        preset: 'done',
+        haptic: 'success',
+        from: 'top',
+      });
+      console.log('Sign Up successful');
+      router.push('/(auth)/SignIn');
+      
+    }catch (err: any){
+      showToast({
+        title: 'Sign Up Failed!',
+        preset: 'error',
+        haptic: 'error',
+        from: 'top',
+      });
+      console.error('Sign Up failed:', err.message);
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,8 +92,8 @@ export default function SignUpScreen() {
         <TextInput
           style={styles.input}
           placeholder="Enter your Email"
-          value={username}
-          onChangeText={setUsername}
+          value={email}
+          onChangeText={setEmail}
           autoCapitalize="none"
         />
       </View>
@@ -118,16 +144,13 @@ export default function SignUpScreen() {
           )}
         </TouchableOpacity>
         
-        {/* Sign In Link */}
+        {/* Redirect to Sign In */}
         <Link href={'/(auth)/SignIn'}>
           <Text style={styles.p}>
             Already have an account? <Text style={styles.span}>Sign In</Text>
           </Text>
         </Link>
-
-
-
-    </View>
+      </View>
     </SafeAreaView>
   );
 
@@ -205,8 +228,9 @@ export default function SignUpScreen() {
       height: 100,
       marginBottom: 20,
     },
-
-
-
-
   });
+
+function signUp(arg0: { username: string; email: string; password: string; confirmPassword: string; }) {
+  throw new Error('Function not implemented.');
+}
+
