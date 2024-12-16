@@ -57,10 +57,53 @@ export default function SignUpScreen() {
         />
       </View>
 
-      
+      {/* Email Input */}
+      <View style={styles.flexColumn}>
+        <Text style={styles.label}>Email</Text>
+      </View>
+      <View style={styles.inputForm}>
+        <Feather name="mail" size={20} color="#666" />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your Email"
+          value={username}
+          onChangeText={setUsername}
+          autoCapitalize="none"
+        />
+      </View>
 
-      
+      {/* Password Input */}
+      <View style={styles.flexColumn}>
+          <Text style={styles.label}>Password</Text>
+        </View>
+        <View style={styles.inputForm}>
+          <Feather name="lock" size={20} color="#666" />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          
+        </View>
 
+      {/* Confirm Password Input */}
+      <View style={styles.flexColumn}>
+          <Text style={styles.label}>Confirm Password</Text>
+        </View>
+        <View style={styles.inputForm}>
+          <Feather name="lock" size={20} color="#666" />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm your Password"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={!showPassword}
+          />
+        </View>
+      
+      
 
 
     </View>
