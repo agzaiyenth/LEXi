@@ -14,7 +14,7 @@ import theme from '../../../src/theme';
 import { Link, useRouter } from 'expo-router';
 import { showToast } from '@/utils/notifications';
 
-export default function SignUpScreen() {
+const SignUpScreen = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,7 +38,7 @@ export default function SignUpScreen() {
       });
       console.log('Sign Up successful');
       router.push('/(auth)/SignIn');
-      
+
     }catch (err: any){
       showToast({
         title: 'Sign Up Failed!',
@@ -63,7 +63,7 @@ export default function SignUpScreen() {
       </View>
 
       {/* Welcome Text */}
-      <Text style={styles.welcomeText}>Create your account</Text>
+      <Text style={styles.welcomeText}>Create your account!</Text>
 
       {/* Form */}
       <View style={styles.form}>
@@ -82,13 +82,14 @@ export default function SignUpScreen() {
           autoCapitalize="none"
         />
       </View>
+      {errors.username ? <Text style={styles.errorText}>{errors.username}</Text> : null}
 
       {/* Email Input */}
       <View style={styles.flexColumn}>
         <Text style={styles.label}>Email</Text>
       </View>
       <View style={styles.inputForm}>
-        <Feather name="mail" size={20} color="#666" />
+        <Feather name="mail" size={30} color="#666" />
         <TextInput
           style={styles.input}
           placeholder="Enter your Email"
@@ -97,6 +98,7 @@ export default function SignUpScreen() {
           autoCapitalize="none"
         />
       </View>
+      {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
 
       {/* Password Input */}
       <View style={styles.flexColumn}>
@@ -115,6 +117,7 @@ export default function SignUpScreen() {
             <Feather name={showPassword ? 'eye' : 'eye-off'} size={20} color="#666" />
           </TouchableOpacity>
         </View>
+        {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
 
       {/* Confirm Password Input */}
       <View style={styles.flexColumn}>
@@ -207,6 +210,10 @@ export default function SignUpScreen() {
       alignItems: 'center',
       marginBottom: 10,
     },
+    errorText: { 
+      color: 'red', 
+      marginTop: 10 
+    },
     submitButtonText: {
       color: theme.colors.background.beige,
       fontWeight: '500',
@@ -233,4 +240,6 @@ export default function SignUpScreen() {
 function signUp(arg0: { username: string; email: string; password: string; confirmPassword: string; }) {
   throw new Error('Function not implemented.');
 }
+
+export default SignUpScreen;
 
