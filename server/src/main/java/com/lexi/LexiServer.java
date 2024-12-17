@@ -6,11 +6,11 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 @EnableCaching
-public class SpringappApplication {
+public class LexiServer {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(SpringappApplication.class, args);
+		SpringApplication.run(LexiServer.class, args);
 	}
 
 }
