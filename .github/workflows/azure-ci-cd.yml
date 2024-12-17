@@ -1,0 +1,54 @@
+name: Azure CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and Push Backend Docker Image
+        run: |
+          cd server
+          docker build -t yourregistry.azurecr.io/backend:${{ github.sha }} .
+          echo "${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}" | docker login yourregistry.azurecr.io -u yourregistry --password-stdin
+          docker push yourregistry.azurecr.io/backend:${{ github.sha }}
+
+      - name: Deploy Backend to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "your-backend-app"
+          images: "yourregistry.azurecr.io/backend:${{ github.sha }}"
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build Frontend Docker Image
+        run: |
+          cd client
+          docker build -t yourregistry.azurecr.io/frontend:${{ github.sha }} .
+          echo "${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}" | docker login yourregistry.azurecr.io -u yourregistry --password-stdin
+          docker push yourregistry.azurecr.io/frontend:${{ github.sha }}
+
+      - name: Deploy Frontend to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "client/web-build"
+          output_location: ""
