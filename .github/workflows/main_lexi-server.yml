@@ -49,7 +49,7 @@ jobs:
       - name: Build with Maven
 
         run: |
-          cd Server
+          cd server
           mvn clean install
 
 
