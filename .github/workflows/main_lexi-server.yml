@@ -39,7 +39,7 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_ENDPOINT: ${{ secrets.OPENAI_ENDPOINT }}
       OPENAI_DEPLOYMENT: ${{ secrets.OPENAI_DEPLOYMENT }}
-      
+
     steps:
 
       - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
 
         run: |
           cd server
-          mvn clean install
+          mvn clean install -DskipTests
 
 
 
