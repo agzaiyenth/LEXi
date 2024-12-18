@@ -1,5 +1,6 @@
 package com.lexi.auth.model;
 
+import com.lexi.auth.entities.ForgetPassword;
 import com.lexi.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -37,4 +38,7 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String role;
+
+    @OneToOne(mappedBy = "user")
+    private ForgetPassword forgetPassword;
 }
