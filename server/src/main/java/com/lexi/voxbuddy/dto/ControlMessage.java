@@ -1,5 +1,8 @@
 package com.lexi.voxbuddy.dto;
 
+import lombok.Getter;
+
+@Getter
 public class ControlMessage {
 
     private final MessageType type = MessageType.CONTROL;
@@ -12,21 +15,9 @@ public class ControlMessage {
         this.action = action;
     }
 
-    public MessageType getType() {
-        return type;
-    }
-
-    public String getGreeting() {
-        return greeting;
-    }
-
     public ControlMessage setGreeting(String greeting) {
         this.greeting = greeting;
         return this;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public ControlMessage setId(String id) {
@@ -34,7 +25,4 @@ public class ControlMessage {
         return this;
     }
 
-    public String getAction() {
-        return action;
-    }
 }

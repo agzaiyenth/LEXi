@@ -1,6 +1,9 @@
 package com.lexi.voxbuddy.dto;
 
 
+import lombok.Getter;
+
+@Getter
 public class TranscriptionMessage {
     private final String id;
 
@@ -10,18 +13,6 @@ public class TranscriptionMessage {
 
     public TranscriptionMessage(String id) {
         this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public MessageType getType() {
-        return type;
-    }
-
-    public String getText() {
-        return text;
     }
 
     public TranscriptionMessage setText(String text) {

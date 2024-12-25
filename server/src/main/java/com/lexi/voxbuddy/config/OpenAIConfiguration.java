@@ -1,11 +1,13 @@
 package com.lexi.voxbuddy.config;
 
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+@Getter
 @Configuration
 @ConfigurationProperties(prefix = "openai.realtime")
 @ConditionalOnProperty(
@@ -19,11 +21,4 @@ class OpenAIConfiguration {
     @Value("${openai.realtime.model}")
     private String openAIModel;
 
-    public String getOpenaiKey() {
-        return openaiKey;
-    }
-
-    public String getOpenAIModel() {
-        return openAIModel;
-    }
 }

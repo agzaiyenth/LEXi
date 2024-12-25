@@ -1,6 +1,9 @@
 package com.lexi.voxbuddy.dto;
 
 
+import lombok.Getter;
+
+@Getter
 public class TextDeltaMessage {
 
     private final String id;
@@ -14,15 +17,4 @@ public class TextDeltaMessage {
         this.delta = text;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public MessageType getType() {
-        return type;
-    }
-
-    public String getDelta() {
-        return delta;
-    }
 }
