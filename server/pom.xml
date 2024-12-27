@@ -158,6 +158,7 @@
             <artifactId>azure-ai-openai-realtime</artifactId>
             <version>1.0.0-alpha.20241205.3</version>
         </dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
@@ -168,7 +169,11 @@
             <artifactId>azure-core</artifactId>
             <version>1.53.0</version>
         </dependency>
-
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.97.Final</version>
+		</dependency>
 
     </dependencies>
 
