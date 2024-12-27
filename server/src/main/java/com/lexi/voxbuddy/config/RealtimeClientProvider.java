@@ -4,16 +4,16 @@ import com.azure.ai.openai.realtime.RealtimeAsyncClient;
 import com.azure.ai.openai.realtime.RealtimeClient;
 import com.azure.ai.openai.realtime.RealtimeClientBuilder;
 import com.azure.core.credential.KeyCredential;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
+@Slf4j
 public class RealtimeClientProvider {
 
     private final AzureOpenAIConfiguration azureOpenAIConfiguration;
 
-    @Autowired
     public RealtimeClientProvider(AzureOpenAIConfiguration azureOpenAIConfiguration) {
         this.azureOpenAIConfiguration = azureOpenAIConfiguration;
     }
@@ -29,9 +29,11 @@ public class RealtimeClientProvider {
     }
 
     private RealtimeClientBuilder getRealtimeClientBuilder() {
+
         return new RealtimeClientBuilder()
                 .endpoint(azureOpenAIConfiguration.getEndpoint())
                 .credential(new KeyCredential(azureOpenAIConfiguration.getApiKey()))
                 .deploymentOrModelName(azureOpenAIConfiguration.getDeployment());
     }
+
 }

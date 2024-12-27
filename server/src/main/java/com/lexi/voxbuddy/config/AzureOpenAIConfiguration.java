@@ -16,5 +16,6 @@ public class AzureOpenAIConfiguration {
     private String endpoint;
     private String apiKey;
     private String deployment;
+    private String apiVersion;
 
 }
