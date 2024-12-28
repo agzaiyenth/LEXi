@@ -17,6 +17,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import reactor.core.Disposable;
 import reactor.core.Disposables;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @Controller
@@ -74,4 +75,28 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
             logger.error("Error closing WebSocket session", e);
         }
     }
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) {
+        logger.info("WebSocket connection established: " + session.getId());
+        try {
+            session.sendMessage(new TextMessage("{\"type\": \"control\", \"action\": \"connected\", \"greeting\": \"Welcome to VoxBuddy!\"}"));
+        } catch (IOException e) {
+            logger.error("Error sending connection message", e);
+        }
+    }
+    @Override
+    public void handleTextMessage(WebSocketSession session, TextMessage message) {
+        try {
+            String payload = message.getPayload();
+            log.info("Received TextMessage: {}", payload);
+            // Process the message and send a response back
+            // Example: Echo the message back
+            session.sendMessage(new TextMessage("Echo: " + payload));
+            session.sendMessage(new TextMessage("{\"type\":\"text_delta\",\"id\":\"response-1\",\"delta\":\"Hello!\"}"));
+
+        } catch (Exception e) {
+            log.error("Error processing message", e);
+        }
+    }
+
 }

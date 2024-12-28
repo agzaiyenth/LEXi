@@ -1,4 +1,4 @@
-package com.lexi.auth.config;
+package com.lexi.common.config;
 
 import com.lexi.auth.service.impl.UserDetailsServiceImpl;
 import com.lexi.auth.util.JwtAuthenticationEntryPoint;
@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/oauth/**","/system/**").permitAll()
+                        .requestMatchers("/realtime").permitAll()
                         .anyRequest().authenticated()
                 )
         ;
@@ -70,7 +71,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 // TODO: Update this to front end port and add the port to a env file
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8081","exp://192.168.1.2:8081","http://://192.168.1.2:8081","http://10.0.2.2")); // FRONT END PORT
+        configuration.setAllowedOrigins(List.of("http://localhost:8081","http://localhost:3000","exp://192.168.1.2:8081","http://://192.168.1.2:8081","http://10.0.2.2")); // FRONT END PORT
 //        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
