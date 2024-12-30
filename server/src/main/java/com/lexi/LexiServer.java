@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 @EnableCaching
+
 @EnableConfigurationProperties
 public class LexiServer {
 

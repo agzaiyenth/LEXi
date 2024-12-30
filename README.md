@@ -25,7 +25,7 @@ This guide explains our Spring Boot project's organization and development pract
 
 ## Project Structure
 Our codebase follows a modular architecture where each feature or service has its own dedicated space. 
-Each feature in our application gets its own dedicated module with this structure:
+Each feature in our application gets its own dedicated module with this structure:..
 
 
 ```
