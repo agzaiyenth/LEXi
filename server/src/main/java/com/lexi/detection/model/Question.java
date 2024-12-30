@@ -1,6 +1,7 @@
 package com.lexi.detection.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Question {
     @Id
@@ -28,4 +30,6 @@ public class Question {
     private Integer correctAnswerIndex; // Index of the correct answer (for MCQs)
 
     private Integer points; // Points for the question
+
+
 }
