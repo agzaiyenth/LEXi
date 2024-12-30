@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,20 +17,20 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category; // Example: "kids", "teens", "adults"
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    private String type; // Question type: "multiple-choice", "text", etc.
+    private String text;
 
-    private String text; // The actual question text
+    private String imageUrl;
 
-    private String imageUrl; // URL for image-based questions
+    private String type;
 
-    @ElementCollection
-    private List<String> options; // Multiple-choice options
+    private Integer correctAnswerIndex;
 
-    private Integer correctAnswerIndex; // Index of the correct answer (for MCQs)
+    private Integer points;
 
-    private Integer points; // Points for the question
-
-
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Option> options;
 }

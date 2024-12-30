@@ -19,10 +19,8 @@ public class QuestionController {
         return questionService.getQuestionsByCategory(category);
     }
 
-    @PostMapping("/evaluate")
-    public int evaluateAnswers(@RequestBody List<Integer> selectedAnswers) {
-        List<Question> questions = questionService.getQuestionsByCategory("kids");
-        return questionService.evaluateAnswers(selectedAnswers, questions);
+    @PostMapping
+    public Question saveQuestion(@RequestBody Question question) {
+        return questionService.saveQuestion(question);
     }
 }
-

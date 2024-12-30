@@ -1,10 +1,12 @@
 package com.lexi.detection.service;
 
+import com.lexi.detection.model.Category;
 import com.lexi.detection.model.Question;
-import com.lexi.detection.rules.CorrectAnswerRule;
-import org.jeasy.rules.api.Facts;
-import org.jeasy.rules.api.Rules;
-import org.jeasy.rules.core.DefaultRulesEngine;
+import com.lexi.detection.model.Option;
+import com.lexi.detection.repository.CategoryRepository;
+import com.lexi.detection.repository.OptionRepository;
+import com.lexi.detection.repository.QuestionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,39 +14,40 @@ import java.util.List;
 @Service
 public class QuestionService {
 
+    @Autowired
+    private QuestionRepository questionRepository;
 
-    public List<Question> getQuestionsByCategory(String category) {
+    @Autowired
+    private OptionRepository optionRepository;
 
-        return List.of(
-                new Question(1L, "kids", "multiple-choice", "What is the spelling of this?", "cat.png",
-                        List.of("cat", "dat", "bat"), 0, 3)
-        );
-    }
+    @Autowired
+    private CategoryRepository categoryRepository;
 
+    public Question saveQuestion(String categoryName, String text, String type, List<String> options, int correctAnswerIndex, int points) {
 
-    public int evaluateAnswers(List<Integer> selectedAnswers, List<Question> questions) {
-        int totalScore = 0;
-
-        Rules rules = new Rules();
-        rules.register(new CorrectAnswerRule());
-
-        DefaultRulesEngine rulesEngine = new DefaultRulesEngine();
-
-        for (int i = 0; i < questions.size(); i++) {
-            Question question = questions.get(i);
-
-            Facts facts = new Facts();
-            facts.put("selectedAnswerIndex", selectedAnswers.get(i));
-            facts.put("correctAnswerIndex", question.getCorrectAnswerIndex());
-            facts.put("currentScore", totalScore);
-            facts.put("points", question.getPoints());
-
-            rulesEngine.fire(rules, facts);
-
-            totalScore = facts.get("currentScore");
+        Category category = categoryRepository.findByName(categoryName);
+        if (category == null) {
+            throw new RuntimeException("Category not found: " + categoryName);
         }
 
-        return totalScore;
+        Question question = new Question();
+        question.setCategory(category);
+        question.setText(text);
+        question.setType(type);
+        question.setCorrectAnswerIndex(correctAnswerIndex);
+        question.setPoints(points);
+
+        // Save the question
+        Question savedQuestion = questionRepository.save(question);
+
+        // Save the options
+        for (String optionText : options) {
+            Option option = new Option();
+            option.setQuestion(savedQuestion);
+            option.setText(optionText);
+            optionRepository.save(option);
+        }
+
+        return savedQuestion;
     }
 }
-
