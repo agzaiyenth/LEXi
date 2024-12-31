@@ -1,0 +1,32 @@
+{
+  "age_groups": {
+    "6-12": [
+      {
+        "type": "image_mcq",
+        "prompt": "What is this animal called?",
+        "image": "cat.jpg",
+        "options": ["Cat", "Bat", "Rat"],
+        "correct_answer": "Cat"
+      },
+      {
+        "type": "mcq",
+        "prompt": "Which word sounds most like 'cat'?",
+        "options": ["Bat", "Mat", "Hat"],
+        "correct_answer": "Bat"
+      },
+      {
+        "type": "memory_test",
+        "prompt": "The sentence will disappear after 3 seconds. Read and remember!",
+        "display": "The dog is happy.",
+        "options": ["The dog is happy", "The dog is playing", "The dog is sleeping"],
+        "correct_answer": "The dog is happy"
+      },
+      {
+        "type": "behavioral_mcq",
+        "prompt": "Do you avoid reading or get upset when asked to read?",
+        "options": ["Yes", "No", "Sometimes"],
+        "correct_answer": null
+      }
+    ]
+  }
+}
