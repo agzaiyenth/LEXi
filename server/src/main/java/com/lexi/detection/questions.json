@@ -27,6 +27,60 @@
         "options": ["Yes", "No", "Sometimes"],
         "correct_answer": null
       }
+    ],
+    "13-18": [
+      {
+        "type": "text_mcq",
+        "prompt": "Which word matches the syllables: 'in/de/pen/dence'?",
+        "options": ["Independent", "Independence", "Indecisive"],
+        "correct_answer": "Independence"
+      },
+      {
+        "type": "image_text_mcq",
+        "prompt": "Spot the correct spelling for this word based on the image shown.",
+        "image": "calendar.jpg",
+        "options": ["Calender", "Calendar", "Calandar"],
+        "correct_answer": "Calendar"
+      },
+      {
+        "type": "behavioral_mcq",
+        "prompt": "Do you mix up letters like 'b' and 'd' or misspell common words?",
+        "options": ["Yes", "No", "Sometimes"],
+        "correct_answer": null
+      },
+      {
+        "type": "text_focus_mcq",
+        "prompt": "Do you avoid reading long passages or struggle to understand them?",
+        "options": ["Yes", "No", "Sometimes"],
+        "correct_answer": null
+      }
+    ],
+    "19+": [
+      {
+        "type": "text_mcq",
+        "prompt": "How do you pronounce this word: 'Extraordinary'?",
+        "options": ["Extra-ordinary", "Extra-or-dinary", "Ex-tro-dinary"],
+        "correct_answer": "Extra-ordinary"
+      },
+      {
+        "type": "short_reading_mcq",
+        "prompt": "What is the main idea of this text?",
+        "display": "Anna loves traveling. She always packs her essentials first and plans her trips well.",
+        "options": ["Packing essentials", "Planning trips", "Anna loves traveling"],
+        "correct_answer": "Anna loves traveling"
+      },
+      {
+        "type": "behavioral_mcq",
+        "prompt": "Do you frequently forget names, numbers, or written instructions?",
+        "options": ["Yes", "No", "Sometimes"],
+        "correct_answer": null
+      },
+      {
+        "type": "behavioral_mcq",
+        "prompt": "Do you avoid filling out forms or jobs that involve strong reading/writing skills?",
+        "options": ["Yes", "No", "Sometimes"],
+        "correct_answer": null
+      }
     ]
   }
 }
