@@ -15,14 +15,14 @@
         "correct_answer": "Bat"
       },
       {
-        "type": "memory_test",
+        "type": "mcq",
         "prompt": "The sentence will disappear after 3 seconds. Read and remember!",
         "display": "The dog is happy.",
         "options": ["The dog is happy", "The dog is playing", "The dog is sleeping"],
         "correct_answer": "The dog is happy"
       },
       {
-        "type": "behavioral_mcq",
+        "type": "mcq",
         "prompt": "Do you avoid reading or get upset when asked to read?",
         "options": ["Yes", "No", "Sometimes"],
         "correct_answer": null
@@ -30,26 +30,26 @@
     ],
     "13-18": [
       {
-        "type": "text_mcq",
+        "type": "mcq",
         "prompt": "Which word matches the syllables: 'in/de/pen/dence'?",
         "options": ["Independent", "Independence", "Indecisive"],
         "correct_answer": "Independence"
       },
       {
-        "type": "image_text_mcq",
+        "type": "image_mcq",
         "prompt": "Spot the correct spelling for this word based on the image shown.",
         "image": "calendar.jpg",
         "options": ["Calender", "Calendar", "Calandar"],
         "correct_answer": "Calendar"
       },
       {
-        "type": "behavioral_mcq",
+        "type": "mcq",
         "prompt": "Do you mix up letters like 'b' and 'd' or misspell common words?",
         "options": ["Yes", "No", "Sometimes"],
         "correct_answer": null
       },
       {
-        "type": "text_focus_mcq",
+        "type": "mcq",
         "prompt": "Do you avoid reading long passages or struggle to understand them?",
         "options": ["Yes", "No", "Sometimes"],
         "correct_answer": null
@@ -57,26 +57,26 @@
     ],
     "19+": [
       {
-        "type": "text_mcq",
+        "type": "mcq",
         "prompt": "How do you pronounce this word: 'Extraordinary'?",
         "options": ["Extra-ordinary", "Extra-or-dinary", "Ex-tro-dinary"],
         "correct_answer": "Extra-ordinary"
       },
       {
-        "type": "short_reading_mcq",
+        "type": "mcq",
         "prompt": "What is the main idea of this text?",
         "display": "Anna loves traveling. She always packs her essentials first and plans her trips well.",
         "options": ["Packing essentials", "Planning trips", "Anna loves traveling"],
         "correct_answer": "Anna loves traveling"
       },
       {
-        "type": "behavioral_mcq",
+        "type": "mcq",
         "prompt": "Do you frequently forget names, numbers, or written instructions?",
         "options": ["Yes", "No", "Sometimes"],
         "correct_answer": null
       },
       {
-        "type": "behavioral_mcq",
+        "type": "mcq",
         "prompt": "Do you avoid filling out forms or jobs that involve strong reading/writing skills?",
         "options": ["Yes", "No", "Sometimes"],
         "correct_answer": null
