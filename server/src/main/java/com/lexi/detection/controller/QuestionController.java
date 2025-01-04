@@ -17,6 +17,7 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
+<<<<<<< Updated upstream
     /**
      * Get questions by category
      *
@@ -30,5 +31,7 @@ public class QuestionController {
         }
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
+=======
+>>>>>>> Stashed changes
 
 }
