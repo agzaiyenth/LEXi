@@ -22,8 +22,21 @@ public class FileUploadController {
     // Endpoint for document upload
     @PostMapping("/upload")
     public ResponseEntity<String> uploadDocument(@RequestParam("file") MultipartFile file) {
+        // Check file type (only accept PDF for example)
+        if (!file.getContentType().equals("application/pdf")) {
+            return new ResponseEntity<>("Only PDF and DOC files are supported.", HttpStatus.BAD_REQUEST);
+        }
+        if (!file.getContentType().equals("application/docx")) {
+            return new ResponseEntity<>("Only PDF and DOC files are supported.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check file size (limit to 50 MB)
+        if (file.getSize() > 50 * 1024 * 1024) {
+            return new ResponseEntity<>("File size exceeds the limit of 50MB.", HttpStatus.BAD_REQUEST);
+        }
+
         try {
-            // Call BlobStorageService to upload the file to Azure Blob Storage
+            // Call service class to upload the file
             String fileName = fileUploadService.uploadFile(file);
             return new ResponseEntity<>("File uploaded successfully: " + fileName, HttpStatus.OK);
         } catch (IOException e) {
