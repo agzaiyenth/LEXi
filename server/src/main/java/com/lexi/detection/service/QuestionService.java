@@ -8,8 +8,18 @@ import com.lexi.detection.repository.OptionRepository;
 import com.lexi.detection.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
 
 @Service
 public class QuestionService {
@@ -23,31 +33,8 @@ public class QuestionService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Question saveQuestion(String categoryName, String text, String type, List<String> options, int correctAnswerIndex, int points) {
-
-        Category category = categoryRepository.findByName(categoryName);
-        if (category == null) {
-            throw new RuntimeException("Category not found: " + categoryName);
-        }
-
-        Question question = new Question();
-        question.setCategory(category);
-        question.setText(text);
-        question.setType(type);
-        question.setCorrectAnswerIndex(correctAnswerIndex);
-        question.setPoints(points);
-
-        // Save the question
-        Question savedQuestion = questionRepository.save(question);
-
-        // Save the options
-        for (String optionText : options) {
-            Option option = new Option();
-            option.setQuestion(savedQuestion);
-            option.setText(optionText);
-            optionRepository.save(option);
-        }
-
-        return savedQuestion;
+    public List<Question> getQuestionsByCategory(String categoryName) {
+        return questionRepository.findByCategory_Name(categoryName);
     }
+
 }

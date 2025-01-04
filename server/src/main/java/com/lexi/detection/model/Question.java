@@ -21,14 +21,14 @@ public class Question {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String text;
+    private String text; // Question text
+    private String type; // Question type (mcq or image_mcq)
 
-    private String imageUrl;
+    private String imagePath; // Path to images
 
-    private String type;
-
-    private Integer correctAnswerIndex;
-
+    private String display; // Additional display text or hints
+    private String correctAnswer; // Correct answer text
+    private Integer correctAnswerIndex; // Correct answer by index
     private Integer points;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
