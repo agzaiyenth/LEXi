@@ -220,17 +220,14 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
         String contentId = textDelta.getItemId() + "-" + textDelta.getContentIndex();
         log.atInfo().log("New text delta inbound. Assigned contentId: " + contentId);
         TextDeltaMessage textDeltaMessage = new TextDeltaMessage(contentId, textDelta.getDelta());
-        Mono.delay(Duration.ofMillis(300)) // Add debounce time (e.g., 300ms)
-                .then(Mono.fromRunnable(() -> {
-                    try {
-                        this.currentSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(textDeltaMessage)));
-                        log.atInfo().log("Sent text delta message after debounce");
-                    } catch (Exception e) {
-                        log.atError().setCause(e).log("Error sending text delta message");
-                    }
-                }))
-                .subscribe();
+        try {
+            this.currentSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(textDeltaMessage)));
+            log.atInfo().log("Sent text delta message immediately");
+        } catch (Exception e) {
+            log.atError().setCause(e).log("Error sending text delta message");
+        }
     }
+
 
     private Flux<RealtimeServerEvent> getLooperFlux() {
         return realtimeAsyncClient.getServerEvents().onErrorResume((throwable) -> {
