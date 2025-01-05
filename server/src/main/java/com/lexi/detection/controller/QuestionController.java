@@ -17,6 +17,7 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
+<<<<<<< Updated upstream
     /**
      * Get questions by category
      * @return List of questions
@@ -29,6 +30,8 @@ public class QuestionController {
         }
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
+=======
+>>>>>>> Stashed changes
 
     /**
      * Endpoint to upload questions from JSON file
