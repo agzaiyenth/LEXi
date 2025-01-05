@@ -19,7 +19,6 @@ public class QuestionController {
 
     /**
      * Get questions by category
-     *
      * @return List of questions
      */
     @GetMapping("/{category}")
@@ -29,6 +28,17 @@ public class QuestionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
+
+    /**
+     * Endpoint to upload questions from JSON file
+     * @return Success message
+     */
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadQuestions() {
+        String filePath = "data/questions.json";
+        questionService.saveQuestionsFromJson(filePath);
+        return new ResponseEntity<>("Questions uploaded successfully!", HttpStatus.OK);
     }
 
 }
