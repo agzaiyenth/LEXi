@@ -159,7 +159,6 @@
             <version>1.0.0-alpha.20241205.3</version>
         </dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.azure/azure-storage-blob -->
 		<dependency>
 			<groupId>com.azure</groupId>
 			<artifactId>azure-storage-blob</artifactId>
