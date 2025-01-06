@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DocVerificationService {
-    private final String connectionString = "<azure-blob-connection-string>";
-    private final String containerName = "<your-container-name>";
+    private final String connectionString = "<DefaultEndpointsProtocol=https;AccountName=lexistorageblob;AccountKey=Aqc8AbEuU6qgylA8WJNqef1mKKimrb8sQuoTYQygB5BckvkHdplcWL9ne/4fgGDxwnROkDtdjiby+AStjen09w==;EndpointSuffix=core.windows.net>";
+    private final String containerName = "<lexifilecontainer>";
 
     public boolean verifyDocument(String fileName) {
         // Initialize BlobServiceClient
