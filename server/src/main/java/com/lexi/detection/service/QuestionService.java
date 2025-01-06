@@ -40,6 +40,11 @@ public class QuestionService {
         return questionRepository.findByCategory_Name(categoryName);
     }
 
+    private static final Map<String, String> IMAGE_PATHS = Map.of(
+            "images/cat.jpg", "images/cat.jpg",
+            "images/calendar.jpg", "images/calendar.jpg"
+    );
+
     public void saveQuestionsFromJson(String filePath) {
         try {
             File file = ResourceUtils.getFile("classpath:" + filePath);
@@ -75,6 +80,12 @@ public class QuestionService {
                     question.setText(questionText);
                     question.setType((String) questionData.get("type"));
 
+                    String image = (String) questionData.get("image");
+                    if (image != null && IMAGE_PATHS.containsKey(image)) {
+                        question.setImagePath(IMAGE_PATHS.get(image));
+                        storeImage(image); // Store the image in the images folder
+                    }
+
                     question.setDisplay((String) questionData.get("display"));
                     question.setCorrectAnswer((String) questionData.get("correct_answer"));
                     question.setPoints(10); // Default points
@@ -97,6 +108,26 @@ public class QuestionService {
                 }
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void storeImage(String imageName) {
+        try {
+            // Use ClassPathResource to load the image from the classpath
+            Resource resource = new ClassPathResource(imageName);
+
+            if (!resource.exists()) {
+                throw new FileNotFoundException("Resource " + imageName + " not found in classpath");
+            }
+
+            // Define source and target paths
+            Path sourcePath = resource.getFile().toPath();
+            Path targetPath = Paths.get("src/main/resources/images/" + imageName);
+
+            // Copy the file to the target directory
+            Files.copy(sourcePath, targetPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
