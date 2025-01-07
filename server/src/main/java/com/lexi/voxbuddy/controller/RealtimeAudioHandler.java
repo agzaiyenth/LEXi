@@ -142,7 +142,7 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
 
         // Send initial greeting
         ControlMessage controlMessage = new ControlMessage("connected")
-                .setGreeting("You are now connected to the Spring Boot server");
+                .setGreeting("You are now connected to LEXi VoxBuddy");
         session.sendMessage(new TextMessage(objectMapper.writeValueAsString(controlMessage)));
 
         // Start the event loop for *this* session
