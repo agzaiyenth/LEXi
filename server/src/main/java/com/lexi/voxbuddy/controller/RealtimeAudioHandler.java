@@ -1,25 +1,7 @@
 package com.lexi.voxbuddy.controller;
 
 import com.azure.ai.openai.realtime.RealtimeAsyncClient;
-import com.azure.ai.openai.realtime.models.ConversationItemInputAudioTranscriptionCompletedEvent;
-import com.azure.ai.openai.realtime.models.InputAudioBufferAppendEvent;
-import com.azure.ai.openai.realtime.models.RealtimeAudioFormat;
-import com.azure.ai.openai.realtime.models.RealtimeAudioInputTranscriptionModel;
-import com.azure.ai.openai.realtime.models.RealtimeAudioInputTranscriptionSettings;
-import com.azure.ai.openai.realtime.models.RealtimeClientEventResponseCreateResponse;
-import com.azure.ai.openai.realtime.models.RealtimeRequestSession;
-import com.azure.ai.openai.realtime.models.RealtimeRequestSessionModality;
-import com.azure.ai.openai.realtime.models.RealtimeServerEvent;
-import com.azure.ai.openai.realtime.models.RealtimeServerEventErrorError;
-import com.azure.ai.openai.realtime.models.RealtimeServerVadTurnDetection;
-import com.azure.ai.openai.realtime.models.RealtimeVoice;
-import com.azure.ai.openai.realtime.models.ResponseAudioDeltaEvent;
-import com.azure.ai.openai.realtime.models.ResponseAudioDoneEvent;
-import com.azure.ai.openai.realtime.models.ResponseAudioTranscriptDeltaEvent;
-import com.azure.ai.openai.realtime.models.ResponseAudioTranscriptDoneEvent;
-import com.azure.ai.openai.realtime.models.ResponseCreateEvent;
-import com.azure.ai.openai.realtime.models.ServerErrorReceivedException;
-import com.azure.ai.openai.realtime.models.SessionUpdateEvent;
+import com.azure.ai.openai.realtime.models.*;
 import com.azure.ai.openai.realtime.utils.ConversationItem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,11 +21,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import reactor.core.Disposable;
 import reactor.core.Disposables;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -131,6 +111,7 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        super.afterConnectionEstablished(session);
         log.atInfo().log("Connection established: " + session.getId());
 
         // Create a new composite for this session
@@ -141,10 +122,11 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
         sessions.put(session.getId(), sessionInfo);
 
         // Send initial greeting
-        ControlMessage controlMessage = new ControlMessage("connected")
-                .setGreeting("You are now connected to LEXi VoxBuddy");
-        session.sendMessage(new TextMessage(objectMapper.writeValueAsString(controlMessage)));
+        ControlMessage connectionMessage = new ControlMessage("status")
+                .setGreeting("connected");
+        session.sendMessage(new TextMessage(objectMapper.writeValueAsString(connectionMessage)));
 
+        log.info("Connection established with session: " + session.getId());
         // Start the event loop for *this* session
         startEventLoopForSession(session.getId());
     }
@@ -157,6 +139,13 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
         log.atInfo().log("Connection closed: " + session.getId());
         log.atInfo().log("Close status: " + status);
 
+        ControlMessage connectionMessage = new ControlMessage("status")
+                .setGreeting("disconnected");
+        if (session.isOpen()) {
+            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(connectionMessage)));
+        }
+
+        log.info("Connection closed for session: " + session.getId());
         // Remove SessionInfo from the map
         SessionInfo info = sessions.remove(session.getId());
         if (info != null) {
@@ -351,8 +340,7 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
     private Flux<RealtimeServerEvent> getLooperFlux() {
         return realtimeAsyncClient.getServerEvents().onErrorResume((throwable) -> {
             // Log the error and continue listening for events.
-            if (throwable instanceof ServerErrorReceivedException) {
-                ServerErrorReceivedException error = (ServerErrorReceivedException) throwable;
+            if (throwable instanceof ServerErrorReceivedException error) {
                 RealtimeServerEventErrorError errorDetails = error.getErrorDetails();
                 log.atError().setCause(throwable)
                         .addKeyValue("eventId", errorDetails.getEventId())
