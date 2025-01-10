@@ -4,6 +4,7 @@ import com.azure.ai.openai.realtime.RealtimeAsyncClient;
 import com.azure.ai.openai.realtime.RealtimeClient;
 import com.azure.ai.openai.realtime.RealtimeClientBuilder;
 import com.azure.core.credential.KeyCredential;
+import com.lexi.common.config.AzureOpenAIConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +34,7 @@ public class RealtimeClientProvider {
         return new RealtimeClientBuilder()
                 .endpoint(azureOpenAIConfiguration.getEndpoint())
                 .credential(new KeyCredential(azureOpenAIConfiguration.getApiKey()))
-                .deploymentOrModelName(azureOpenAIConfiguration.getDeployment());
+                .deploymentOrModelName(azureOpenAIConfiguration.getVoxbuddy_deployment());
     }
 
 }

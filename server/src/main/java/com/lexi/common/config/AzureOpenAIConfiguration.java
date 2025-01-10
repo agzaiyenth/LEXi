@@ -1,4 +1,4 @@
-package com.lexi.voxbuddy.config;
+package com.lexi.common.config;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -15,7 +15,8 @@ public class AzureOpenAIConfiguration {
 
     private String endpoint;
     private String apiKey;
-    private String deployment;
+    private String voxbuddy_deployment;
+    private String smartRead_deployment;
     private String apiVersion;
 
 }

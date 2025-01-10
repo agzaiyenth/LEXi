@@ -1,4 +1,4 @@
-package com.lexi.voxbuddy.config;
+package com.lexi.common.config;
 
 import com.azure.ai.openai.realtime.RealtimeAsyncClient;
 import com.lexi.voxbuddy.controller.RealtimeAudioHandler;
