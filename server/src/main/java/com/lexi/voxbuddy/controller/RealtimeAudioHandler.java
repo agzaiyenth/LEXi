@@ -11,6 +11,7 @@ import com.lexi.voxbuddy.dto.TranscriptionMessage;
 import com.lexi.voxbuddy.dto.UserMessage;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.BinaryMessage;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class RealtimeAudioHandler extends TextWebSocketHandler {
     private final Map<String, SessionInfo> sessions = new java.util.concurrent.ConcurrentHashMap<>();
 
+    @Getter
     private static class SessionInfo {
         private final WebSocketSession session;
         private final Disposable.Composite disposables;
@@ -41,13 +43,6 @@ public class RealtimeAudioHandler extends TextWebSocketHandler {
             this.disposables = disposables;
         }
 
-        public WebSocketSession getSession() {
-            return session;
-        }
-
-        public Disposable.Composite getDisposables() {
-            return disposables;
-        }
     }
 
     private final ObjectMapper objectMapper = new ObjectMapper();
