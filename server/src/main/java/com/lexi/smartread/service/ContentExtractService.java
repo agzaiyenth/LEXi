@@ -63,5 +63,5 @@ public class ContentExtractService {
 
         return extractedText.toString(); // Returns extracted text
     }
-    
+
 }

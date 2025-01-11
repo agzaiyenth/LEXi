@@ -1,13 +1,12 @@
 package com.lexi.smartread.controller;
 
+import com.lexi.smartread.service.ContentExtractService;
+import com.lexi.smartread.service.DocVerificationService;
 import com.lexi.smartread.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,6 +17,10 @@ public class FileUploadController {
 
     @Autowired
     private FileUploadService fileUploadService;
+    @Autowired
+    private DocVerificationService verificationService;
+    @Autowired
+    private ContentExtractService extractionService;
 
     // Endpoint for document upload
     @PostMapping("/upload")
@@ -41,6 +44,23 @@ public class FileUploadController {
             return new ResponseEntity<>("File uploaded successfully: " + fileName, HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<>("File upload failed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/process")
+    public String processDocument(@RequestParam String fileName) {
+        try {
+            // Step 1: Verify the document
+            if (!verificationService.verifyDocument(fileName)) {
+                return "Document verification failed.";
+            }
+
+            // Step 2: Extract content from the document
+            String extractedContent = extractionService.extractContent(fileName);
+
+            return "Extracted Content:\n" + extractedContent;
+        } catch (Exception e) {
+            return "Error during processing: " + e.getMessage();
         }
     }
 }
