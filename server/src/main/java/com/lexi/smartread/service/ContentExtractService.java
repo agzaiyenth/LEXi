@@ -1,9 +1,16 @@
 package com.lexi.smartread.service;
 
+import com.azure.ai.formrecognizer.FormRecognizerClient;
+import com.azure.ai.formrecognizer.FormRecognizerClientBuilder;
+import com.azure.ai.formrecognizer.models.FormPage;
+import com.azure.ai.formrecognizer.models.RecognizedForm;
+import com.azure.core.credential.AzureKeyCredential;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.specialized.BlockBlobClient;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ContentExtractService {
@@ -36,7 +43,25 @@ public class ContentExtractService {
     }
 
     private String performOCR(String fileUrl) {
-        // Implement OCR logic using Azure Cognitive Services
-        return "Extracted content from file: " + fileUrl;
+        // Initialize the Form Recognizer Client
+        FormRecognizerClient client = new FormRecognizerClientBuilder()
+                .endpoint(visionEndpoint)
+                .credential(new AzureKeyCredential(visionKey))
+                .buildClient();
+
+        // Use the client to extract text from the document
+        StringBuilder extractedText = new StringBuilder();
+
+        List<FormPage> pages = client.beginRecognizeContentFromUrl(fileUrl)
+                .getFinalResult();
+
+        for (com.azure.ai.formrecognizer.models.FormPage page : pages) {
+            page.getLines().forEach(line ->
+                    extractedText.append(line.getText()).append("\n")
+            );
+        }
+
+        return extractedText.toString(); // Returns extracted text
     }
+    
 }
