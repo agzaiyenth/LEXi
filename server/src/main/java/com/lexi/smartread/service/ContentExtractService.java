@@ -7,6 +7,7 @@ import com.azure.core.credential.AzureKeyCredential;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.specialized.BlockBlobClient;
+import com.lexi.common.config.BlobConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.lexi.common.config.ComputerVisionConfig;
@@ -16,14 +17,18 @@ import java.util.List;
 @Service
 public class ContentExtractService {
 
-    // Azure Blob Storage connection string, container name, and Azure computer vision credentials
-    private String blobConnectionString = "DefaultEndpointsProtocol=https;AccountName=lexistorageblob;AccountKey=Aqc8AbEuU6qgylA8WJNqef1mKKimrb8sQuoTYQygB5BckvkHdplcWL9ne/4fgGDxwnROkDtdjiby+AStjen09w==;EndpointSuffix=core.windows.net";
-    private String containerName = "lexifilecontainer";
+    @Value("${azure.storage.account-name}")  //add to application.properties
+    private String accountName;
+
+    @Value("${azure.storage.container-name}")
+    private String containerName;
 
     private final ComputerVisionConfig computerVisionConfig;
+    private final BlobConfig blobConfig;
 
-    public ContentExtractService(ComputerVisionConfig computerVisionConfig) {
+    public ContentExtractService(ComputerVisionConfig computerVisionConfig, BlobConfig blobConfig) {
         this.computerVisionConfig = computerVisionConfig;
+        this.blobConfig = blobConfig;
     }
     public String extractContent(String fileName) {
         //Retrieve the document URL from Blob Storage
@@ -36,9 +41,15 @@ public class ContentExtractService {
     }
 
     private String getBlobFileUrl(String fileName) {
+        String apiKey = blobConfig.getApiKey();
+
         BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
-                .connectionString(blobConnectionString)
+                .connectionString(
+                        "DefaultEndpointsProtocol=https;AccountName="
+                                + accountName + ";AccountKey="
+                                + apiKey + ";EndpointSuffix=core.windows.net")
                 .buildClient();
+
 
         BlockBlobClient blobClient = blobServiceClient
                 .getBlobContainerClient(containerName)
