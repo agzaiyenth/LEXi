@@ -3,6 +3,7 @@ package com.lexi.smartread.controller;
 import com.lexi.smartread.service.ContentExtractService;
 import com.lexi.smartread.service.DocVerificationService;
 import com.lexi.smartread.service.FileUploadService;
+import com.lexi.smartread.service.SummarizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class FileUploadController {
     private DocVerificationService verificationService;
     @Autowired
     private ContentExtractService extractionService;
+    @Autowired
+    private SummarizationService summarizationService;
 
 
     // Endpoint for document upload
@@ -62,6 +65,26 @@ public class FileUploadController {
             return "Extracted Content:\n" + extractedContent;
         } catch (Exception e) {
             return "Error during processing: " + e.getMessage();
+        }
+    }
+
+    @GetMapping("/summarize")
+    public ResponseEntity<String> summarizeDocument(@RequestParam String fileName) {
+        try {
+            // Step 1: Verify the document
+            if (!verificationService.verifyDocument(fileName)) {
+                return new ResponseEntity<>("Document verification failed.", HttpStatus.BAD_REQUEST);
+            }
+
+            // Step 2: Extract content from the document
+            String extractedContent = extractionService.extractContent(fileName);
+
+            // Step 3: Summarize the extracted content
+            String summarizedContent = summarizationService.summarizeContent(extractedContent);
+
+            return new ResponseEntity<>("Summarized Content:\n" + summarizedContent, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error during summarization: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
