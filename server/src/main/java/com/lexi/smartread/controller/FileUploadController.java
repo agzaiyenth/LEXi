@@ -3,6 +3,7 @@ package com.lexi.smartread.controller;
 import com.lexi.smartread.service.ContentExtractService;
 import com.lexi.smartread.service.DocVerificationService;
 import com.lexi.smartread.service.FileUploadService;
+import com.lexi.smartread.service.SummarizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class FileUploadController {
     @Autowired
     private ContentExtractService extractionService;
 
+
     // Endpoint for document upload
     @PostMapping("/upload")
     public ResponseEntity<String> uploadDocument(@RequestParam("file") MultipartFile file) {
@@ -33,8 +35,8 @@ public class FileUploadController {
             return new ResponseEntity<>("Only PDF and DOC files are supported.", HttpStatus.BAD_REQUEST);
         }
 
-        // Check file size (limit to 50 MB)
-        if (file.getSize() > 50 * 1024 * 1024) {
+        // Check file size (limit to 20 MB)
+        if (file.getSize() > 20 * 1024 * 1024) {
             return new ResponseEntity<>("File size exceeds the limit of 50MB.", HttpStatus.BAD_REQUEST);
         }
 
@@ -47,20 +49,10 @@ public class FileUploadController {
         }
     }
 
-    @GetMapping("/process")
-    public String processDocument(@RequestParam String fileName) {
-        try {
-            // Step 1: Verify the document
-            if (!verificationService.verifyDocument(fileName)) {
-                return "Document verification failed.";
-            }
 
-            // Step 2: Extract content from the document
-            String extractedContent = extractionService.extractContent(fileName);
-
-            return "Extracted Content:\n" + extractedContent;
-        } catch (Exception e) {
-            return "Error during processing: " + e.getMessage();
-        }
     }
+
+
+
+
 }

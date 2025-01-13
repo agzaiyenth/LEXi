@@ -3,7 +3,6 @@ package com.lexi.smartread.service;
 import com.azure.ai.formrecognizer.FormRecognizerClient;
 import com.azure.ai.formrecognizer.FormRecognizerClientBuilder;
 import com.azure.ai.formrecognizer.models.FormPage;
-import com.azure.ai.formrecognizer.models.RecognizedForm;
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
@@ -22,11 +21,13 @@ public class ContentExtractService {
     private final String visionKey = "<BNnu3HEhkyhxwOYA2M062Q05LEPXUzMyR28tzoRqNoh3A7jzgFevJQQJ99BAACYeBjFXJ3w3AAAFACOGc36i>"; // azure vision key
 
     public String extractContent(String fileName) {
-        // Step 1: Retrieve the document URL from Blob Storage
+        //Retrieve the document URL from Blob Storage
         String fileUrl = getBlobFileUrl(fileName);
 
-        // Step 2: Perform OCR using Azure Cognitive Services
+        // Perform OCR using Azure Cognitive Services
         return performOCR(fileUrl);
+
+        //add summarization service
     }
 
     private String getBlobFileUrl(String fileName) {
@@ -63,5 +64,7 @@ public class ContentExtractService {
 
         return extractedText.toString(); // Returns extracted text
     }
+
+
 
 }
