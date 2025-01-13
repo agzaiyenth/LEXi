@@ -12,8 +12,19 @@ import java.io.InputStream;
 @Service
 @Slf4j
 public class SummarizationService {
+    public String summarizeContent(String extractedContent) {
+        try {
+            //Load the summarization prompt template
+            String prompt = loadCustomInstruction();
 
+            String formattedPrompt = prompt.replace("{content}", extractedContent);
 
+            // Send the prompt to the deployed model for summarization
+            return callSummarizationModel(formattedPrompt);
+        } catch (Exception e) {
+            throw new RuntimeException("Error during summarization: " + e.getMessage());
+        }
+    }
 
     private String loadCustomInstruction() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -28,5 +39,11 @@ public class SummarizationService {
             throw new IllegalStateException("Unable to load custom instructions from smartread-summarizePrompt.json", e);
         }
     }
-    
+
+    private String callSummarizationModel(String prompt) {
+        // Simulate a call to the model
+        // Replace this with the actual HTTP client implementation
+        return "Summarized content based on the prompt: " + prompt;
+    }
+
 }
