@@ -3,7 +3,6 @@ package com.lexi.smartread.controller;
 import com.lexi.smartread.service.ContentExtractService;
 import com.lexi.smartread.service.DocVerificationService;
 import com.lexi.smartread.service.FileUploadService;
-import com.lexi.smartread.service.SummarizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,4 +54,4 @@ public class FileUploadController {
 
 
 
-}
+
