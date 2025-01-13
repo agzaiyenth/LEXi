@@ -4,17 +4,33 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.models.BlobProperties;
+import com.lexi.common.config.BlobConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DocVerificationService {
-    private final String connectionString = "DefaultEndpointsProtocol=https;AccountName=lexistorageblob;AccountKey=Aqc8AbEuU6qgylA8WJNqef1mKKimrb8sQuoTYQygB5BckvkHdplcWL9ne/4fgGDxwnROkDtdjiby+AStjen09w==;EndpointSuffix=core.windows.net";
-    private final String containerName = "lexifilecontainer";
+
+    @Value("${azure.storage.account-name}")  //add to application.properties
+    private String accountName;
+
+    @Value("${azure.storage.container-name}")  //add to application.properties
+    private String containerName;
+
+    private final BlobConfig blobConfig;
+
+    public DocVerificationService(BlobConfig blobConfig) {
+        this.blobConfig = blobConfig;
+    }
 
     public boolean verifyDocument(String fileName) {
+
         // Initialize BlobServiceClient
         BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
-                .connectionString(connectionString)
+                .connectionString("DefaultEndpointsProtocol=https;" +
+                        "AccountName="  + accountName +
+                        "AccountKey=" +blobConfig.getApiKey()
+                        + ";EndpointSuffix=core.windows.net" )
                 .buildClient();
 
         BlobClient blobClient = blobServiceClient.getBlobContainerClient(containerName).getBlobClient(fileName);

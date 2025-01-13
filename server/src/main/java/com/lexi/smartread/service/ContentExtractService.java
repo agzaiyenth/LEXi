@@ -22,8 +22,6 @@ public class ContentExtractService {
 
     private final ComputerVisionConfig computerVisionConfig;
 
-
-
     public ContentExtractService(ComputerVisionConfig computerVisionConfig) {
         this.computerVisionConfig = computerVisionConfig;
     }

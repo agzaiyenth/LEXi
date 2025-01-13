@@ -3,6 +3,7 @@ package com.lexi.smartread.service;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.lexi.common.config.BlobConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,19 +18,24 @@ public class FileUploadService {
     @Value("${azure.storage.account-name}")  //add to application.properties
     private String accountName;
 
-    @Value("${azure.storage.account-key}")  //add to application.properties
-    private String accountKey;
-
     @Value("${azure.storage.container-name}")  //add to application.properties
     private String containerName;
 
+    private final BlobConfig blobConfig;
+
+    public FileUploadService(BlobConfig blobConfig){
+        this.blobConfig = blobConfig;
+    }
+
     // Create a BlobServiceClient instance
     private BlobServiceClient getBlobServiceClient() {
+        String apiKey = blobConfig.getApiKey();
+
         return new BlobServiceClientBuilder()
                 .connectionString(
                         "DefaultEndpointsProtocol=https;AccountName="
                                 + accountName + ";AccountKey="
-                                + accountKey + ";EndpointSuffix=core.windows.net")
+                                + apiKey + ";EndpointSuffix=core.windows.net")
                 .buildClient();
     }
 
