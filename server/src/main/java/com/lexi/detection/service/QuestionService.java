@@ -109,7 +109,7 @@ public class QuestionService {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error loading questions from JSON file: " + e.getMessage(), e);
         }
     }
 
@@ -129,7 +129,7 @@ public class QuestionService {
             // Copy the file to the target directory
             Files.copy(sourcePath, targetPath);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error saving the image: " + imageName, e);
         }
     }
 

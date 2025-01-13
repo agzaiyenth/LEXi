@@ -21,5 +21,5 @@ public class CorrectAnswerRule {
         int points = facts.get("points");
         facts.put("currentScore", currentScore + points);
     }
-}
 
+}

@@ -16,5 +16,5 @@ public class Option {
     private Question question;
 
     private String text;
-}
 
+}
