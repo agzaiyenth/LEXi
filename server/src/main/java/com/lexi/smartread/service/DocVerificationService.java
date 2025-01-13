@@ -53,7 +53,7 @@ public class DocVerificationService {
             throw new RuntimeException("Unsupported file type: " + contentType);
         }
 
-        return true; // File is valid
+        return false; // File is valid
     }
 
     }

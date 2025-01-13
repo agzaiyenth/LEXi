@@ -55,7 +55,7 @@ public class FileUploadController {
     public String processDocument(@RequestParam String fileName) {
         try {
             // Step 1: Verify the document
-            if (!verificationService.verifyDocument(fileName)) {
+            if (verificationService.verifyDocument(fileName)) {
                 return "Document verification failed.";
             }
 
@@ -72,7 +72,7 @@ public class FileUploadController {
     public ResponseEntity<String> summarizeDocument(@RequestParam String fileName) {
         try {
             // Step 1: Verify the document
-            if (!verificationService.verifyDocument(fileName)) {
+            if (verificationService.verifyDocument(fileName)) {
                 return new ResponseEntity<>("Document verification failed.", HttpStatus.BAD_REQUEST);
             }
 

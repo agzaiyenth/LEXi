@@ -2,6 +2,7 @@ package com.lexi.smartread.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lexi.common.config.AzureOpenAIConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,13 @@ import java.io.InputStream;
 @Service
 @Slf4j
 public class SummarizationService {
+
+    /*private final AzureOpenAIConfiguration azureOpenAIConfiguration;
+
+    public SummarizationService(AzureOpenAIConfiguration azureOpenAIConfiguration) {
+        this.azureOpenAIConfiguration = azureOpenAIConfiguration;
+    }
+    */
     public String summarizeContent(String extractedContent) {
         try {
             //Load the summarization prompt template
@@ -42,7 +50,8 @@ public class SummarizationService {
 
     private String callSummarizationModel(String prompt) {
         // Simulate a call to the model
-        // Replace this with the actual HTTP client implementation
+        // (need model end point and model api key)
+        // Replace this with the actual HTTP client implementation??
         return "Summarized content based on the prompt: " + prompt;
     }
 

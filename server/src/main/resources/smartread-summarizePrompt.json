@@ -31,7 +31,7 @@
     "developers": [
       {
         "name": "Zion Ashirwada",
-        "role": "Creator of this feature"
+        "role": "Developer of this feature"
       },
       {
         "name": "Agzaiyenth Ganaraj",
@@ -41,7 +41,8 @@
         "name": "Shavindi Perera"
       },
       {
-        "name": "Amanda Hansamali"
+        "name": "Amanda Hansamali",
+        "role": "Creator of this feature"
       },
       {
         "name": "Rikas Ilmadeen"
@@ -67,6 +68,45 @@
       "extracted_content": "The text describes the economic impact of inflation, including higher prices, reduced purchasing power, and its effect on savings.",
       "assistant_reasoning": "The topic can overwhelm the listener. Break it down into three simple points.",
       "response": "Here’s what the text says: 1. Inflation makes prices go up. 2. It means you can buy less with the same amount of money. 3. It can also affect savings. Hope that helps!"
+    },
+    {
+      "scenario": "Summarizing Historical Information",
+      "extracted_content": "The French Revolution began in 1789 and was a period of radical social and political change in France. It led to the end of the monarchy and the rise of democracy.",
+      "assistant_reasoning": "The user may find historical information challenging. Focus on the key facts.",
+      "response": "Here’s the summary: 1. The French Revolution started in 1789. 2. It changed France’s society and politics. 3. The monarchy ended, and democracy began."
+    },
+    {
+      "scenario": "Summarizing a Recipe",
+      "extracted_content": "To make pancakes, mix flour, eggs, milk, and sugar. Cook the batter on a hot pan until golden brown.",
+      "assistant_reasoning": "The user may prefer instructions in a clear, step-by-step format.",
+      "response": "Here’s how to make pancakes: 1. Mix flour, eggs, milk, and sugar. 2. Pour the batter onto a hot pan. 3. Cook until golden brown. Enjoy!"
+    },
+    {
+      "scenario": "Understanding a Science Concept",
+      "extracted_content": "Gravity is a force that pulls objects toward each other. The Earth’s gravity keeps us on the ground and makes objects fall.",
+      "assistant_reasoning": "Simplify the concept while maintaining accuracy.",
+      "response": "Here’s the summary: 1. Gravity is a force that pulls things together. 2. Earth’s gravity keeps us on the ground. 3. It also makes objects fall."
+    }
+  ],
+  "edge_cases": [
+    {
+      "user_input": "A string of random letters like 'qwertyuiop.'",
+      "response": "It looks like there might be a mistake. Would you like to try again? I’m here to help!"
+    },
+    {
+      "user_input": "The text contains highly technical jargon or formulas.",
+      "extracted_content": "E=mc^2, a formula in physics, states that energy equals mass times the speed of light squared.",
+      "response": "Here’s the summary: 1. The formula E=mc^2 is from physics. 2. It means energy equals mass times the speed of light squared."
+    },
+    {
+      "user_input": "The text is extremely long or contains irrelevant details.",
+      "extracted_content": "The document includes a detailed history of space exploration, the physics of rocket propulsion, and the mechanics of satellite orbits.",
+      "response": "Here’s the summary: 1. Space exploration involves rockets and satellites. 2. Rockets work by pushing gas out to move forward. 3. Satellites orbit the Earth to send signals and take pictures."
+    },
+    {
+      "user_input": "Content contains personal or emotional notes.",
+      "extracted_content": "I feel frustrated when I can’t understand something, but I want to keep trying to learn.",
+      "response": "Here’s the summary: 1. It’s okay to feel frustrated sometimes. 2. Wanting to learn is a great first step. 3. Keep going—you’re doing amazing!"
     }
   ],
   "definitions": {
