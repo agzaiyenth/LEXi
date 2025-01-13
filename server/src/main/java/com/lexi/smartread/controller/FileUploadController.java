@@ -48,8 +48,25 @@ public class FileUploadController {
         }
     }
 
+    @GetMapping("/process")
+    public String processDocument(@RequestParam String fileName) {
+        try {
+            // Step 1: Verify the document
+            if (!verificationService.verifyDocument(fileName)) {
+                return "Document verification failed.";
+            }
 
+            // Step 2: Extract content from the document
+            String extractedContent = extractionService.extractContent(fileName);
+
+            return "Extracted Content:\n" + extractedContent;
+        } catch (Exception e) {
+            return "Error during processing: " + e.getMessage();
+        }
     }
+
+
+}
 
 
 
