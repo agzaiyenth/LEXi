@@ -7,7 +7,9 @@ import com.azure.core.credential.AzureKeyCredential;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.specialized.BlockBlobClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import com.lexi.common.config.ComputerVisionConfig;
 
 import java.util.List;
 
@@ -15,11 +17,16 @@ import java.util.List;
 public class ContentExtractService {
 
     // Azure Blob Storage connection string, container name, and Azure computer vision credentials
-    private final String blobConnectionString = "<DefaultEndpointsProtocol=https;AccountName=lexistorageblob;AccountKey=Aqc8AbEuU6qgylA8WJNqef1mKKimrb8sQuoTYQygB5BckvkHdplcWL9ne/4fgGDxwnROkDtdjiby+AStjen09w==;EndpointSuffix=core.windows.net>";
-    private final String containerName = "<lexifilecontainer>";
-    private final String visionEndpoint = "<https://lexicomputervision.cognitiveservices.azure.com/>"; //azure vision endpoint
-    private final String visionKey = "<BNnu3HEhkyhxwOYA2M062Q05LEPXUzMyR28tzoRqNoh3A7jzgFevJQQJ99BAACYeBjFXJ3w3AAAFACOGc36i>"; // azure vision key
+    private String blobConnectionString = "DefaultEndpointsProtocol=https;AccountName=lexistorageblob;AccountKey=Aqc8AbEuU6qgylA8WJNqef1mKKimrb8sQuoTYQygB5BckvkHdplcWL9ne/4fgGDxwnROkDtdjiby+AStjen09w==;EndpointSuffix=core.windows.net";
+    private String containerName = "lexifilecontainer";
 
+    private final ComputerVisionConfig computerVisionConfig;
+
+
+
+    public ContentExtractService(ComputerVisionConfig computerVisionConfig) {
+        this.computerVisionConfig = computerVisionConfig;
+    }
     public String extractContent(String fileName) {
         //Retrieve the document URL from Blob Storage
         String fileUrl = getBlobFileUrl(fileName);
@@ -44,6 +51,9 @@ public class ContentExtractService {
     }
 
     private String performOCR(String fileUrl) {
+
+        String visionEndpoint = computerVisionConfig.getEndpoint();
+        String visionKey = computerVisionConfig.getApiKey();
         // Initialize the Form Recognizer Client
         FormRecognizerClient client = new FormRecognizerClientBuilder()
                 .endpoint(visionEndpoint)
