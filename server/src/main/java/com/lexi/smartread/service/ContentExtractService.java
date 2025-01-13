@@ -38,6 +38,10 @@ public class ContentExtractService {
         return performOCR(fileUrl);
 
         //add summarization service
+
+
+
+
     }
 
     private String getBlobFileUrl(String fileName) {
